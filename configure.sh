@@ -9,6 +9,9 @@ ln -sf ~/.config/my_config/.vimrc ~/.vimrc
 ln -sf ~/.config/my_config/.vim_runtime ~/.vim_runtime
 ln -sf ~/.config/my_config/init.vim  ~/.config/nvim/init.vim
 ln -sf ~/.config/my_config/.tmux/.tmux.conf  ~/.tmux.conf
+ln -sf ~/.config/my_config/.fzf.bash  ~/.fzf.bash
+ln -sf ~/.config/my_config/.fzf.zsh  ~/.fzf.zsh
+
 
 
 
