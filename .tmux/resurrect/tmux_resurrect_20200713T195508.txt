@@ -1,0 +1,3 @@
+pane	0	1	:nvim	1	:*	1	:/Users/tripathyas/repo/Git/help	1	nvim	:nvim
+window	0	1	1	:*	d65d,255x69,0,0,0
+state	0	

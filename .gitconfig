@@ -1,0 +1,13 @@
+[user]
+	name = ashutosh tripathy
+	email = tripathyas@vmware.com
+[diff]
+	tool = nvim
+[difftool "nvim"]
+    cmd = nvim -d $LOCAL $REMOTE
+	prompt = true
+[alias]
+	d = difftool
+    s = status
+    b = branch
+
