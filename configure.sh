@@ -13,5 +13,5 @@ ln -sf ~/.config/my_config/.fzf.bash  ~/.fzf.bash
 ln -sf ~/.config/my_config/.fzf.zsh  ~/.fzf.zsh
 
 
-
-
+./nvim.appimage --appimage-extract
+sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim
