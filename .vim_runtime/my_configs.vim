@@ -417,3 +417,10 @@ set nofoldenable
 " vim-peekaboo
 let g:peekaboo_window = "vert bo 50new"
 let g:peekaboo_delay = 700
+
+"===========ycm===================
+nmap gd :YcmCompleter GoToDefinition<CR>
+nmap gD :YcmCompleter GoToDeclaration<CR>
+nmap gr :YcmCompleter GoToReferences
+nnoremap K :YcmCompleter GetDoc<CR>
+
