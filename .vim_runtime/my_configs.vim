@@ -421,6 +421,11 @@ let g:peekaboo_delay = 700
 "===========ycm===================
 nmap gd :YcmCompleter GoToDefinition<CR>
 nmap gD :YcmCompleter GoToDeclaration<CR>
-nmap gr :YcmCompleter GoToReferences
+nmap gr :YcmCompleter GoToReferences<CR>
 nnoremap K :YcmCompleter GetDoc<CR>
+
+"==========gitgutter==============
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+let g:gitgutter_map_keys = 0
 
