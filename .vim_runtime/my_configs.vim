@@ -10,7 +10,6 @@ set fileformat=unix
 set fileformats=unix,dos
 set number
 map <leader>wo :only<cr>
-nmap <leader>bb <c-^><cr>
 map <leader>bo :w \| %bd \| e#<cr>
 map <leader>ca :colorscheme peaksea<cr>
 "nnoremap <c-a> ggVG
@@ -66,17 +65,17 @@ map <leader>tcl :Tabcloseleft<cr>
 map <leader>tcr :Tabcloseright<cr>
 map <leader>bde :DeleteEmptyBuffers<cr>
 
-
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-noremap <leader>0 :tablast<cr>
+nnoremap <leader>1 :b1 <cr>
+nnoremap <leader>2 :b2 <cr>
+nnoremap <leader>3 :b3 <cr>
+nnoremap <leader>4 :b4 <cr>
+nnoremap <leader>5 :b5 <cr>
+nnoremap <leader>6 :b6 <cr>
+nnoremap <leader>7 :b7 <cr>
+nnoremap <leader>8 :b8 <cr>
+nnoremap <leader>9 :b9 <cr>
+nnoremap <leader>0 <c-^><cr>
+"nmap <leader>bb <c-^><cr> or b#
 
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'"'
@@ -122,7 +121,7 @@ let g:ctrlp_prompt_mappings = {
     \ }
 let g:ctrlp_max_files = 0
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-nnoremap <Leader>b :CtrlPBuffer<cr>
+"nnoremap <Leader>b :CtrlPBuffer<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,7 +143,7 @@ set rtp+=~/.vim_runtime/my_plugins/fzf
 nnoremap <leader>j :GFiles<CR>
 nnoremap <leader>J :Files<CR>
 nmap <Leader>L :Lines<CR>
-nmap <Leader>b  :Buffers<CR>
+nmap <Leader>bb  :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 
 " rg: ripgrep
