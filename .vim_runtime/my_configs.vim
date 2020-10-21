@@ -140,10 +140,12 @@ let g:ale_javascript_eslint_use_global = 1
 " => FZF
 """"""""""""""""""""""""""""""
 set rtp+=~/.vim_runtime/my_plugins/fzf
-nnoremap <leader>j :GFiles<CR>
+"nnoremap <leader>j :GFiles<CR>
+nnoremap <leader>j :FZF<CR>
 nnoremap <leader>J :Files<CR>
 nmap <Leader>L :Lines<CR>
-nmap <Leader>bb  :Buffers<CR>
+nmap <Leader>bb  :buffers<CR>
+nmap <Leader>b  :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 
 " rg: ripgrep
@@ -249,14 +251,23 @@ if has("cscope")
     "
     " The following maps all invoke one of the following cscope search types:
     "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
+    "   add  : Add a new database             (Usage: add file|dir [pre-path] [flags])
+    "    find : Query for a pattern            (Usage: find a|c|d|e|f|g|i|s|t name)
+    "           a: Find assignments to this symbol
+    "           c: Find functions calling this function
+    "           d: Find functions called by this function
+    "           e: Find this egrep pattern
+    "           f: Find this file
+    "           g: Find this definition
+    "           i: Find files #including this file
+    "           s: Find this C symbol
+    "           t: Find this text string
+    "    help : Show this message              (Usage: help)
+    "    kill : Kill a connection              (Usage: kill #)
+    "    reset: Reinit all connections         (Usage: reset)
+    "    show : Show connections               (Usage: show)
+    "    Press ENTER or type command to continue
+
     "
     " Below are three sets of the maps: one set that just jumps to your
     " search result, one that splits the existing vim window horizontally and

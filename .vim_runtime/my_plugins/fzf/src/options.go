@@ -80,7 +80,11 @@ const usage = `usage: fzf [options]
   Preview
     --preview=COMMAND     Command to preview highlighted line ({})
     --preview-window=OPT  Preview window layout (default: right:50%)
-                          [up|down|left|right][:SIZE[%]][:wrap][:hidden]
+                          [up|down|left|right][:SIZE[%]]
+                          [:[no]wrap][:[no]cycle][:[no]hidden]
+                          [:rounded|sharp|noborder]
+                          [:+SCROLL[-OFFSET]]
+                          [:default]
 
   Scripting
     -q, --query=STR       Start the finder with the given query
@@ -159,9 +163,11 @@ type previewOpts struct {
 	command  string
 	position windowPosition
 	size     sizeSpec
+	scroll   string
 	hidden   bool
 	wrap     bool
-	border   bool
+	cycle    bool
+	border   tui.BorderShape
 }
 
 // Options stores the values of command-line options
@@ -221,6 +227,10 @@ type Options struct {
 	Version     bool
 }
 
+func defaultPreviewOpts(command string) previewOpts {
+	return previewOpts{command, posRight, sizeSpec{50, true}, "", false, false, false, tui.BorderRounded}
+}
+
 func defaultOptions() *Options {
 	return &Options{
 		Fuzzy:       true,
@@ -260,7 +270,7 @@ func defaultOptions() *Options {
 		ToggleSort:  false,
 		Expect:      make(map[int]string),
 		Keymap:      make(map[int][]action),
-		Preview:     previewOpts{"", posRight, sizeSpec{50, true}, false, false, true},
+		Preview:     defaultPreviewOpts(""),
 		PrintQuery:  false,
 		ReadZero:    false,
 		Printer:     func(str string) { fmt.Println(str) },
@@ -464,6 +474,8 @@ func parseKeyChords(str string, message string) map[int]string {
 			chord = tui.CtrlRightBracket
 		case "change":
 			chord = tui.Change
+		case "backward-eof":
+			chord = tui.BackwardEOF
 		case "alt-enter", "alt-return":
 			chord = tui.CtrlAltM
 		case "alt-space":
@@ -682,7 +694,7 @@ func init() {
 	// Backreferences are not supported.
 	// "~!@#$%^&*;/|".each_char.map { |c| Regexp.escape(c) }.map { |c| "#{c}[^#{c}]*#{c}" }.join('|')
 	executeRegexp = regexp.MustCompile(
-		`(?si)[:+](execute(?:-multi|-silent)?|reload):.+|[:+](execute(?:-multi|-silent)?|reload)(\([^)]*\)|\[[^\]]*\]|~[^~]*~|![^!]*!|@[^@]*@|\#[^\#]*\#|\$[^\$]*\$|%[^%]*%|\^[^\^]*\^|&[^&]*&|\*[^\*]*\*|;[^;]*;|/[^/]*/|\|[^\|]*\|)`)
+		`(?si)[:+](execute(?:-multi|-silent)?|reload|preview):.+|[:+](execute(?:-multi|-silent)?|reload|preview)(\([^)]*\)|\[[^\]]*\]|~[^~]*~|![^!]*!|@[^@]*@|\#[^\#]*\#|\$[^\$]*\$|%[^%]*%|\^[^\^]*\^|&[^&]*&|\*[^\*]*\*|;[^;]*;|/[^/]*/|\|[^\|]*\|)`)
 }
 
 func parseKeymap(keymap map[int][]action, str string) {
@@ -694,6 +706,8 @@ func parseKeymap(keymap map[int][]action, str string) {
 		prefix := symbol + "execute"
 		if strings.HasPrefix(src[1:], "reload") {
 			prefix = symbol + "reload"
+		} else if strings.HasPrefix(src[1:], "preview") {
+			prefix = symbol + "preview"
 		} else if src[len(prefix)] == '-' {
 			c := src[len(prefix)+1]
 			if c == 's' || c == 'S' {
@@ -754,6 +768,8 @@ func parseKeymap(keymap map[int][]action, str string) {
 				appendAction(actAcceptNonEmpty)
 			case "print-query":
 				appendAction(actPrintQuery)
+			case "refresh-preview":
+				appendAction(actRefreshPreview)
 			case "replace-query":
 				appendAction(actReplaceQuery)
 			case "backward-char":
@@ -846,6 +862,10 @@ func parseKeymap(keymap map[int][]action, str string) {
 				appendAction(actPreviewPageUp)
 			case "preview-page-down":
 				appendAction(actPreviewPageDown)
+			case "preview-half-page-up":
+				appendAction(actPreviewHalfPageUp)
+			case "preview-half-page-down":
+				appendAction(actPreviewHalfPageDown)
 			default:
 				t := isExecuteAction(specLower)
 				if t == actIgnore {
@@ -859,6 +879,8 @@ func parseKeymap(keymap map[int][]action, str string) {
 					switch t {
 					case actReload:
 						offset = len("reload")
+					case actPreview:
+						offset = len("preview")
 					case actExecuteSilent:
 						offset = len("execute-silent")
 					case actExecuteMulti:
@@ -896,6 +918,8 @@ func isExecuteAction(str string) actionType {
 	switch prefix {
 	case "reload":
 		return actReload
+	case "preview":
+		return actPreview
 	case "execute":
 		return actExecute
 	case "execute-silent":
@@ -976,21 +1000,26 @@ func parseInfoStyle(str string) infoStyle {
 }
 
 func parsePreviewWindow(opts *previewOpts, input string) {
-	// Default
-	opts.position = posRight
-	opts.size = sizeSpec{50, true}
-	opts.hidden = false
-	opts.wrap = false
-
 	tokens := strings.Split(input, ":")
 	sizeRegex := regexp.MustCompile("^[0-9]+%?$")
+	offsetRegex := regexp.MustCompile("^\\+([0-9]+|{-?[0-9]+})(-[0-9]+|-/[1-9][0-9]*)?$")
 	for _, token := range tokens {
 		switch token {
 		case "":
+		case "default":
+			*opts = defaultPreviewOpts(opts.command)
 		case "hidden":
 			opts.hidden = true
+		case "nohidden":
+			opts.hidden = false
 		case "wrap":
 			opts.wrap = true
+		case "nowrap":
+			opts.wrap = false
+		case "cycle":
+			opts.cycle = true
+		case "nocycle":
+			opts.cycle = false
 		case "up", "top":
 			opts.position = posUp
 		case "down", "bottom":
@@ -999,24 +1028,20 @@ func parsePreviewWindow(opts *previewOpts, input string) {
 			opts.position = posLeft
 		case "right":
 			opts.position = posRight
-		case "border":
-			opts.border = true
+		case "rounded", "border":
+			opts.border = tui.BorderRounded
+		case "sharp":
+			opts.border = tui.BorderSharp
 		case "noborder":
-			opts.border = false
+			opts.border = tui.BorderNone
 		default:
 			if sizeRegex.MatchString(token) {
 				opts.size = parseSize(token, 99, "window size")
+			} else if offsetRegex.MatchString(token) {
+				opts.scroll = token[1:]
 			} else {
-				errorExit("invalid preview window layout: " + input)
+				errorExit("invalid preview window option: " + token)
 			}
-		}
-	}
-	if !opts.size.percent && opts.size.size > 0 {
-		// Adjust size for border
-		opts.size.size += 2
-		// And padding
-		if opts.position == posLeft || opts.position == posRight {
-			opts.size.size += 2
 		}
 	}
 }
@@ -1260,7 +1285,7 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.Preview.command = ""
 		case "--preview-window":
 			parsePreviewWindow(&opts.Preview,
-				nextString(allArgs, &i, "preview window layout required: [up|down|left|right][:SIZE[%]][:noborder][:wrap][:hidden]"))
+				nextString(allArgs, &i, "preview window layout required: [up|down|left|right][:SIZE[%]][:rounded|sharp|noborder][:wrap][:cycle][:hidden][:+SCROLL[-OFFSET]][:default]"))
 		case "--height":
 			opts.Height = parseHeight(nextString(allArgs, &i, "height required: HEIGHT[%]"))
 		case "--min-height":

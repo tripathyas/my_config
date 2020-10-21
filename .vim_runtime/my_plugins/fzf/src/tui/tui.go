@@ -87,6 +87,7 @@ const (
 	F12
 
 	Change
+	BackwardEOF
 
 	AltSpace
 	AltSlash
@@ -275,7 +276,7 @@ func MakeTransparentBorder() BorderStyle {
 type Renderer interface {
 	Init()
 	Pause(clear bool)
-	Resume(clear bool)
+	Resume(clear bool, sigcont bool)
 	Clear()
 	RefreshWindows(windows []Window)
 	Refresh()
@@ -285,7 +286,6 @@ type Renderer interface {
 
 	MaxX() int
 	MaxY() int
-	DoesAutoWrap() bool
 
 	NewWindow(top int, left int, width int, height int, preview bool, borderStyle BorderStyle) Window
 }

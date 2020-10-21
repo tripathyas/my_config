@@ -1,6 +1,122 @@
 CHANGELOG
 =========
 
+0.24.0
+------
+- fzf can render preview window before the command completes
+  ```sh
+  fzf --preview 'sleep 1; for i in $(seq 100); do echo $i; sleep 0.01; done'
+  ```
+
+0.23.1
+------
+- Added `--preview-window` options for disabling flags
+    - `nocycle`
+    - `nohidden`
+    - `nowrap`
+    - `default`
+- Built with Go 1.14.9 due to performance regression
+    - https://github.com/golang/go/issues/40727
+
+0.23.0
+------
+- Support preview scroll offset relative to window height
+  ```sh
+  git grep --line-number '' |
+    fzf --delimiter : \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1}' \
+        --preview-window +{2}-/2
+  ```
+- Added `--preview-window` option for sharp edges (`--preview-window sharp`)
+- Added `--preview-window` option for cyclic scrolling (`--preview-window cycle`)
+- Reduced vertical padding around the preview window when `--preview-window
+  noborder` is used
+- Added actions for preview window
+    - `preview-half-page-up`
+    - `preview-half-page-down`
+- Vim
+    - Popup width and height can be given in absolute integer values
+    - Added `fzf#exec()` function for getting the path of fzf executable
+        - It also downloads the latest binary if it's not available by running
+          `./install --bin`
+- Built with Go 1.15.2
+    - We no longer provide 32-bit binaries
+
+0.22.0
+------
+- Added more options for `--bind`
+    - `backward-eof` event
+      ```sh
+      # Aborts when you delete backward when the query prompt is already empty
+      fzf --bind backward-eof:abort
+      ```
+    - `refresh-preview` action
+      ```sh
+      # Rerun preview command when you hit '?'
+      fzf --preview 'echo $RANDOM' --bind '?:refresh-preview'
+      ```
+    - `preview` action
+      ```sh
+      # Default preview command with an extra preview binding
+      fzf --preview 'file {}' --bind '?:preview:cat {}'
+
+      # A preview binding with no default preview command
+      # (Preview window is initially empty)
+      fzf --bind '?:preview:cat {}'
+
+      # Preview window hidden by default, it appears when you first hit '?'
+      fzf --bind '?:preview:cat {}' --preview-window hidden
+      ```
+- Added preview window option for setting the initial scroll offset
+  ```sh
+  # Initial scroll offset is set to the line number of each line of
+  # git grep output *minus* 5 lines
+  git grep --line-number '' |
+    fzf --delimiter : --preview 'nl {1}' --preview-window +{2}-5
+  ```
+- Added support for ANSI colors in `--prompt` string
+- Smart match of accented characters
+    - An unaccented character in the query string will match both accented and
+      unaccented characters, while an accented character will only match
+      accented characters. This is similar to how "smart-case" match works.
+- Vim plugin
+    - `tmux` layout option for using fzf-tmux
+      ```vim
+      let g:fzf_layout = { 'tmux': '-p90%,60%' }
+      ```
+
+0.21.1
+------
+- Shell extension
+    - CTRL-R will remove duplicate commands
+- fzf-tmux
+    - Supports tmux popup window (require tmux 3.2 or above)
+        - ```sh
+          # 50% width and height
+          fzf-tmux -p
+
+          # 80% width and height
+          fzf-tmux -p 80%
+
+          # 80% width and 40% height
+          fzf-tmux -p 80%,40%
+          fzf-tmux -w 80% -h 40%
+
+          # Window position
+          fzf-tmux -w 80% -h 40% -x 0 -y 0
+          fzf-tmux -w 80% -h 40% -y 1000
+
+          # Write ordinary fzf options after --
+          fzf-tmux -p -- --reverse --info=inline --margin 2,4 --border
+          ```
+        - On macOS, you can build the latest tmux from the source with
+          `brew install tmux --HEAD`
+- Bug fixes
+    - Fixed Windows file traversal not to include directories
+    - Fixed ANSI colors with `--keep-right`
+    - Fixed _fzf_complete for zsh
+- Built with Go 1.14.1
+
 0.21.0
 ------
 - `--height` option is now available on Windows as well (@kelleyma49)

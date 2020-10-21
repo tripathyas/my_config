@@ -1,4 +1,4 @@
-$version="0.21.0"
+$version="0.23.1"
 
 if ([Environment]::Is64BitProcess) {
   $binary_arch="amd64"
@@ -57,7 +57,7 @@ function download {
   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
   (New-Object Net.WebClient).DownloadFile($url, $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath("$temp"))
   if ($?) {
-    (Expand-Archive -Path $temp -DestinationPath .); (Remove-Item $temp)
+    (Microsoft.PowerShell.Archive\Expand-Archive -Path $temp -DestinationPath .); (Remove-Item $temp)
   } else {
     $binary_error="Failed to download with powershell"
   }
