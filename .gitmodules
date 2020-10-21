@@ -1,0 +1,33 @@
+[submodule ".vim_runtime/my_plugins/ale"]
+	path = .vim_runtime/my_plugins/ale
+	url = https://github.com/dense-analysis/ale.git
+[submodule ".vim_runtime/my_plugins/bufexplorer"]
+	path = .vim_runtime/my_plugins/bufexplorer
+	url = https://github.com/jlanzarotta/bufexplorer.git
+[submodule ".vim_runtime/my_plugins/vim-maktaba"]
+	path = .vim_runtime/my_plugins/vim-maktaba
+	url = https://github.com/google/vim-maktaba.git
+[submodule ".vim_runtime/my_plugins/vim-surround"]
+	path = .vim_runtime/my_plugins/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule ".vim_runtime/my_plugins/ack.vim"]
+	path = .vim_runtime/my_plugins/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim_runtime/my_plugins/vim-glaive"]
+	path = .vim_runtime/my_plugins/vim-glaive
+	url = https://github.com/google/vim-glaive.git
+[submodule ".vim_runtime/my_plugins/vim-peekaboo"]
+	path = .vim_runtime/my_plugins/vim-peekaboo
+	url = https://github.com/junegunn/vim-peekaboo.git
+[submodule ".vim_runtime/my_plugins/vim-codefmt"]
+	path = .vim_runtime/my_plugins/vim-codefmt
+	url = https://github.com/google/vim-codefmt.git
+[submodule ".vim_runtime/my_plugins/YouCompleteMe"]
+	path = .vim_runtime/my_plugins/YouCompleteMe
+	url = https://github.com/ycm-core/YouCompleteMe.git
+[submodule ".vim_runtime/my_plugins/fzf"]
+	path = .vim_runtime/my_plugins/fzf
+	url = https://github.com/junegunn/fzf.git
+[submodule ".vim_runtime/my_plugins/fzf.vim"]
+	path = .vim_runtime/my_plugins/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
