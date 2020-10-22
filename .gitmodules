@@ -31,3 +31,6 @@
 [submodule ".vim_runtime/my_plugins/fzf.vim"]
 	path = .vim_runtime/my_plugins/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule ".vim_runtime/my_plugins/lightline-buffer"]
+	path = .vim_runtime/my_plugins/lightline-buffer
+	url = https://github.com/taohexxx/lightline-buffer.git
