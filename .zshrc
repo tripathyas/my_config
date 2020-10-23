@@ -14,4 +14,6 @@ setopt    sharehistory      #Share history across terminals
 autoload -U compinit && compinit -u
 export MANPAGER='nvim +Man!'
 
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
