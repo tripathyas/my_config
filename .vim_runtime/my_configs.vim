@@ -151,7 +151,7 @@ nmap <Leader>L :Lines<CR>
 nmap <Leader>bb  :buffers<CR>
 nmap <Leader>b  :Buffers<CR>
 nmap <Leader>t :Tags<CR>
-nmap <C-i> :History:<CR>
+"nmap <C-i> :History:<CR>
 
 
 " rg: ripgrep
