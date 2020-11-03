@@ -16,6 +16,5 @@ ln -sf ~/.config/my_config/.fzf.zsh  ~/.fzf.zsh
 ./nvim.appimage --appimage-extract
 
 git submodule update --init --recursive
-python3 ./.vim_runtime/.vim_runtime/my_plugins/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer --ts-completer
+python3 ./.vim_runtime/my_plugins/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer --ts-completer
 ./.vim_runtime/my_plugins/fzf/install
-sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim

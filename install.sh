@@ -9,4 +9,5 @@ echo sudo $mgr update;
 echo sudo $mgr install -y fzf neovim ripgrep python3-pip pylint python3-autopep8 tmux autojump ctags cscope tldr;
 sudo $mgr update;
 sudo $mgr install -y fzf neovim ripgrep python3-pip pylint python3-autopep8 tmux autojump ctags cscope tldr;
+sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim
 
