@@ -11,6 +11,7 @@ ln -sf ~/.config/my_config/init.vim  ~/.config/nvim/init.vim
 ln -sf ~/.config/my_config/.tmux/.tmux.conf  ~/.tmux.conf
 ln -sf ~/.config/my_config/.fzf.bash  ~/.fzf.bash
 ln -sf ~/.config/my_config/.fzf.zsh  ~/.fzf.zsh
+ln -sf ~/.config/my_config/.rgignore ~/.rgignore
 
 
 ./nvim.appimage --appimage-extract

@@ -54,7 +54,7 @@ map <leader>j :CtrlP<cr>
 map <leader>b :CtrlPBuffer<cr>
 
 " Quickly find and open a recently opened file
-map <leader>f :CtrlPMRU<CR>
+"map <leader>f :CtrlPMRU<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'

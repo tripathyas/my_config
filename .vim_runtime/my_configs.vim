@@ -79,7 +79,7 @@ nnoremap <silent> <leader>7 :b7 <cr>
 nnoremap <silent> <leader>8 :b8 <cr>
 nnoremap <silent> <leader>9 :b9 <cr>
 nnoremap <silent> <leader>0 :b# <cr>
-"nmap <leader>bb <c-^><cr> or b#
+nmap <leader>bb <c-^><cr>
 
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'"'
@@ -102,20 +102,19 @@ function! Tabe(...)
   endif
 endfunction
 
-function! DeleteEmptyBuffers()
-    let [i, n; empty] = [1, bufnr('$')]
-    while i <= n
-        if bufexists(i) && bufname(i) == ''
-            call add(empty, i)
-        endif
-        let i += 1
-    endwhile
-    if len(empty) > 0
-        exe 'bdelete' join(empty)
-    endif
+
+function! CscopeDone()
+	exe "cs add cscope.out"
+endfunc
+
+function! CscopeUpdate()
+	try | exe "cs kill cscope.out" | catch | endtry
+	exe "AsyncRun -post=call\\ g:CscopeDone() ".
+                \ "git ls-files >cscope.files && ".
+				\ "cscope -bi cscope.files"
 endfunction
 
-
+command! CscopeUpdate call CscopeUpdate()
 """"""""""""""""""""""""""""""
 " => CTRL-P
 """"""""""""""""""""""""""""""
@@ -148,7 +147,7 @@ set rtp+=~/.vim_runtime/my_plugins/fzf
 nnoremap <leader>j :FZF<CR>
 nnoremap <leader>J :Files<CR>
 nmap <Leader>L :Lines<CR>
-nmap <Leader>bb  :buffers<CR>
+"nmap <Leader>bb  :buffers<CR>
 nmap <Leader>b  :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 "nmap <C-i> :History:<CR>
