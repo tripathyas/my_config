@@ -69,6 +69,12 @@ map <leader>tcl :Tabcloseleft<cr>
 map <leader>tcr :Tabcloseright<cr>
 map <leader>bde :DeleteEmptyBuffers<cr>
 
+nnoremap <silent> <leader>s1 :mks! s1 <cr>
+nnoremap <silent> <leader>s2 :mks! s2 <cr>
+nnoremap <silent> <leader>s3 :mks! s3 <cr>
+nnoremap <silent> <leader>s4 :mks! s4 <cr>
+nnoremap <silent> <leader>s5 :mks! s5 <cr>
+
 nnoremap <silent> <leader>1 :b1 <cr>
 nnoremap <silent> <leader>2 :b2 <cr>
 nnoremap <silent> <leader>3 :b3 <cr>
