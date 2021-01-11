@@ -6,6 +6,10 @@ syntax enable
 let g:solarized_termcolors=256
 "colorscheme solarized
 colorscheme gruvbox
+"if &diff
+"    colorscheme pyte
+"endif
+
 set fileformat=unix
 set fileformats=unix,dos
 set number
@@ -62,18 +66,23 @@ endfunction
 
 command! -bang Tabcloseright call TabCloseRight('<bang>')
 command! -bang Tabcloseleft call TabCloseLeft('<bang>')
-command! -bang TrimTrailingWhitespace call CleanExtraSpaces()
+command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! DeleteEmptyBuffers call DeleteEmptyBuffers()
 
 map <leader>tcl :Tabcloseleft<cr>
 map <leader>tcr :Tabcloseright<cr>
 map <leader>bde :DeleteEmptyBuffers<cr>
 
-nnoremap <silent> <leader>s1 :mks! s1 <cr>
-nnoremap <silent> <leader>s2 :mks! s2 <cr>
-nnoremap <silent> <leader>s3 :mks! s3 <cr>
-nnoremap <silent> <leader>s4 :mks! s4 <cr>
-nnoremap <silent> <leader>s5 :mks! s5 <cr>
+nnoremap <silent> <leader>s1 : call CreateSession('s1') <cr>
+nnoremap <silent> <leader>s2 : call CreateSession('s2') <cr>
+nnoremap <silent> <leader>s3 : call CreateSession('s3') <cr>
+nnoremap <silent> <leader>s4 : call CreateSession('s4') <cr>
+nnoremap <silent> <leader>s5 : call CreateSession('s5') <cr>
+
+function! CreateSession(sessionName)
+    exe "mks! ". a:sessionName
+    echo "created session ". a:sessionName
+endfunction
 
 nnoremap <silent> <leader>1 :b1 <cr>
 nnoremap <silent> <leader>2 :b2 <cr>
@@ -85,7 +94,7 @@ nnoremap <silent> <leader>7 :b7 <cr>
 nnoremap <silent> <leader>8 :b8 <cr>
 nnoremap <silent> <leader>9 :b9 <cr>
 nnoremap <silent> <leader>0 :b# <cr>
-nmap <leader>bb <c-^><cr>
+nmap <leader>bl <c-^><cr>
 
 :tnoremap <Esc> <C-\><C-n>
 :tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'"'
@@ -154,7 +163,7 @@ nnoremap <leader>j :FZF<CR>
 nnoremap <leader>J :Files<CR>
 nmap <Leader>L :Lines<CR>
 "nmap <Leader>bb  :buffers<CR>
-nmap <Leader>b  :Buffers<CR>
+nmap <Leader>bb  :Buffers<CR>
 nmap <Leader>t :Tags<CR>
 "nmap <C-i> :History:<CR>
 
@@ -457,7 +466,7 @@ set hidden  " allow buffer switching without saving
 set showtabline=2  " always show tabline
 
 " use lightline-buffer in lightline
-"'bufnum' 
+"'bufnum'
 let g:lightline = {
     \ 'active': {
     \   'left': [ ['mode', 'paste'],
