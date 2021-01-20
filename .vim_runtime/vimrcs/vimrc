@@ -24,15 +24,22 @@ set updatetime=50
 set nocompatible
 set exrc
 
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+
 
 call plug#begin('~/.vim/plugged')
     Plug 'gruvbox-community/gruvbox'
     Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
     Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'mileszs/ack.vim'
     if has('nvim')
+        Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
     else
@@ -46,17 +53,16 @@ set bg=dark
 let mapleader = " "
 
 nnoremap <leader>wo :only<cr>
-nnoremap <leader>fg :Ack
 
 nnoremap <leader>ff <cmd>Telescope git_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 
 nnoremap <leader>fh <cmd>Telescope command_history<cr>
 nnoremap <leader>fH <cmd>Telescope help_tags<cr>
 
 
-nnoremap <leader>fg <cmd>Telescope help_tags<cr>
+nnoremap <leader>fg :Ack<Space>
+
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
@@ -75,11 +81,11 @@ if has('nvim')
     nnoremap <leader>vsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
 
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    lua require'lspconfig'.tsserver.setup{ on_attach=require'completion'.on_attach }
-    lua require'lspconfig'.clangd.setup{ on_attach=require'completion'.on_attach }
-    lua require'lspconfig'.pyls.setup{ on_attach=require'completion'.on_attach }
-    lua require'lspconfig'.gopls.setup{ on_attach=require'completion'.on_attach }
-    lua require'lspconfig'.rust_analyzer.setup{ on_attach=require'completion'.on_attach }
+    lua require'lspconfig'.tsserver.setup{}
+    lua require'lspconfig'.clangd.setup{}
+    lua require'lspconfig'.pyls.setup{}
+    lua require'lspconfig'.gopls.setup{}
+    lua require'lspconfig'.rust_analyzer.setup{}
     " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
 endif
 
