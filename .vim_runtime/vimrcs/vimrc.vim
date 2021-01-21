@@ -19,7 +19,6 @@ set undofile
 set incsearch
 set scrolloff=4
 set colorcolumn=80
-set signcolumn=yes
 set updatetime=50
 set nocompatible
 set exrc
@@ -30,6 +29,10 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+if has('signcolumn')                                                            
+    set signcolumn=yes                                                          
+end
 
 
 
