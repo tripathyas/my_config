@@ -4,4 +4,4 @@ if [ -x "$(command -v nvim)" ]; then
 else
     nvim='vim'
 fi
-$nvim -S $(ls -t | grep -e '^s\d$' | head -n 1)
+$nvim -S $(ls -t| grep -e '^s[0-9]$' | head -n 1)
