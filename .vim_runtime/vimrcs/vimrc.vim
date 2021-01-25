@@ -189,6 +189,7 @@ let g:lightline = {
       \ },
       \ }
 
+if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -202,6 +203,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 EOF
+endif
 
 if has("cscope")
 
