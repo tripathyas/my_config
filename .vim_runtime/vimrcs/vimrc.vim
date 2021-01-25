@@ -30,6 +30,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
 if has('signcolumn')                                                            
     set signcolumn=yes                                                          
 end
@@ -72,6 +75,12 @@ set bg=dark
 let mapleader = " "
 
 nnoremap <leader>wo :only<cr>
+nmap <leader>bl <c-^><cr>
+
+map <leader>cc :botright cope<cr>
+map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+map <leader>cn :cn<cr>
+map <leader>cp :cp<cr>
 
 
 
@@ -106,14 +115,14 @@ if has('nvim')
 
     nnoremap <leader>ff <cmd>Telescope git_files<cr>
     nnoremap <leader>ff <cmd>Telescope find_files<cr>
-    nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    "nnoremap <leader>fb <cmd>Telescope buffers<cr>
     nnoremap <leader>fh <cmd>Telescope command_history<cr>
     nnoremap <leader>fH <cmd>Telescope help_tags<cr>
 else
     nnoremap <leader>ff :FZF<CR>
     nnoremap <leader>fF :Files<CR>
-    nmap <Leader>fb  :Buffers<CR>
 endif
+nmap <Leader>fb  :Buffers<CR>
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
@@ -173,7 +182,7 @@ let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'bufnum', 'filename', 'readonly', 'modified' ] ]
+      \             [ 'bufnum', 'filename', 'readonly', 'modified', 'gitbranch', 'relativepath' ] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
@@ -183,10 +192,53 @@ let g:lightline = {
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
+    -- virtual_text = false,
+    virtual_text = {
+      spacing = 4,
+      prefix = '~',
+    },
     signs = true,
     update_in_insert = false,
   }
 )
 EOF
 
+if has("cscope")
+
+    """"""""""""" Standard cscope/vim boilerplate
+
+    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+    set cscopetag
+
+    " check cscope for definition of a symbol before checking ctags: set to 1
+    " if you want the reverse search order.
+    set csto=0
+
+    " add any cscope database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add the database pointed to by environment variable
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+
+    " show msg when any other cscope db added
+    set cscopeverbose
+endif
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
