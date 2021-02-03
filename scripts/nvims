@@ -4,4 +4,10 @@ if [ -x "$(command -v nvim)" ]; then
 else
     nvim='vim'
 fi
-$nvim -S $(ls -t| grep -e '^s[0-9]$' | head -n 1)
+
+param=""
+session=$(ls -t| grep -e '^s[0-9]$' | head -n 1)
+if [ ! -z $session ]; then
+    param="-S $session"
+fi
+$nvim $param
