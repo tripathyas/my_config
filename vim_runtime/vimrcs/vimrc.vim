@@ -37,7 +37,13 @@ if has('signcolumn')
     set signcolumn=yes                                                          
 end
 
+set foldmethod=syntax
+set foldnestmax=10
+set foldlevel=4
+set nofoldenable
 
+
+autocmd FileType python setlocal foldmethod=indent
 
 call plug#begin('~/.vim/plugged')
     Plug 'gruvbox-community/gruvbox'
