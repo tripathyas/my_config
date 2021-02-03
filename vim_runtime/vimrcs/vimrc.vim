@@ -10,6 +10,7 @@ set exrc
 set relativenumber
 set nu
 set hidden
+set ignorecase
 set smartcase
 
 set noswapfile
@@ -17,6 +18,7 @@ set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
+set magic
 set scrolloff=4
 set colorcolumn=80
 set updatetime=50
@@ -24,6 +26,25 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
+" Show matching brackets when text indicator is over them
+set showmatch 
+
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=4
+
+" Turn on the Wild menu
+set wildmenu
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+" Don't redraw while executing macros (good performance config)
+set lazyredraw 
+
 
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -119,16 +140,16 @@ if has('nvim')
     lua require'lspconfig'.rust_analyzer.setup{}
     " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
 
-    nnoremap <leader>ff <cmd>Telescope git_files<cr>
+    "nnoremap <leader>ff <cmd>Telescope git_files<cr>
     nnoremap <leader>ff <cmd>Telescope find_files<cr>
     "nnoremap <leader>fb <cmd>Telescope buffers<cr>
     nnoremap <leader>fh <cmd>Telescope command_history<cr>
     nnoremap <leader>fH <cmd>Telescope help_tags<cr>
 else
-    nnoremap <leader>ff :FZF<CR>
     nnoremap <leader>fF :Files<CR>
 endif
 nmap <Leader>fb  :Buffers<CR>
+nnoremap <leader>ff :GFiles<CR>
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
@@ -140,6 +161,7 @@ function! TrimTrailingWhitespace()
 endfunction
 
 command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
+command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
 nnoremap <silent> <leader>s1 : call CreateSession('s1') <cr>
 nnoremap <silent> <leader>s2 : call CreateSession('s2') <cr>
@@ -199,11 +221,11 @@ if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- virtual_text = false,
-    virtual_text = {
-      spacing = 4,
-      prefix = '~',
-    },
+    virtual_text = false,
+    -- virtual_text = {
+    --   spacing = 4,
+    --   prefix = '~',
+    -- },
     signs = true,
     update_in_insert = false,
   }
