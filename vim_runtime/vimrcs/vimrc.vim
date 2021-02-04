@@ -199,11 +199,11 @@ nmap <Leader>fl :Lines<CR>
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-map <leader>nn :NERDTreeToggle<cr>
+silent! map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
+silent! map <leader>nf :NERDTreeFind<cr>
 let g:NERDTreeChDirMode=2
-let g:NERDTreeWinSize=60
+let g:NERDTreeWinSize=50
 autocmd FileType nerdtree setlocal relativenumber
 
 let g:lightline = {
