@@ -101,7 +101,7 @@ colorscheme gruvbox
 set bg=dark
 let mapleader = " "
 
-nnoremap <leader>wo :only<cr>
+nnoremap <silent> <leader>wo :only<cr>
 nmap <leader>bl <c-^><cr>
 
 map <leader>cc :botright cope<cr>
@@ -109,6 +109,9 @@ map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
 map <leader>cn :cn<cr>
 map <leader>cp :cp<cr>
 
+set ssop-=options    " do not store global and local values in a session
+
+hi Search cterm=NONE ctermfg=black ctermbg=LightGrey
 
 
 nnoremap <leader>fg :Ack<Space>
@@ -121,14 +124,14 @@ if has('nvim')
           
     set completeopt=menuone,noinsert,noselect
 
-    nnoremap gd :lua vim.lsp.buf.definition()<CR>
-    nnoremap gi :lua vim.lsp.buf.implementation()<CR>
-    nnoremap gsh :lua vim.lsp.buf.signature_help()<CR>
-    nnoremap grr :lua vim.lsp.buf.references()<CR>
-    nnoremap grn :lua vim.lsp.buf.rename()<CR>
-    nnoremap gh :lua vim.lsp.buf.hover()<CR>
-    nnoremap gca :lua vim.lsp.buf.code_action()<CR>
-    nnoremap gsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> gsh :lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <silent> grr :lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> grn :lua vim.lsp.buf.rename()<CR>
+    nnoremap <silent> gh :lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> gca :lua vim.lsp.buf.code_action()<CR>
+    nnoremap <silent> gsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
 
 
 
@@ -199,9 +202,9 @@ nmap <Leader>fl :Lines<CR>
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=0
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-silent! map <leader>nn :NERDTreeToggle<cr>
+map <silent> <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
-silent! map <leader>nf :NERDTreeFind<cr>
+map <silent> <leader>nf :NERDTreeFind<cr>
 let g:NERDTreeChDirMode=2
 let g:NERDTreeWinSize=50
 autocmd FileType nerdtree setlocal relativenumber
