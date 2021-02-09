@@ -98,7 +98,6 @@ call plug#end()
 
 
 colorscheme gruvbox
-set bg=dark
 let mapleader = " "
 
 nnoremap <silent> <leader>wo :only<cr>
@@ -111,7 +110,7 @@ map <leader>cp :cp<cr>
 
 set ssop-=options    " do not store global and local values in a session
 
-hi Search cterm=NONE ctermfg=black ctermbg=LightGrey
+
 
 
 nnoremap <leader>fg :Ack<Space>
@@ -275,3 +274,9 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+if g:colors_name == 'gruvbox'
+    set bg=dark
+    hi Search cterm=NONE ctermfg=black ctermbg=Grey
+    hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
+fi
