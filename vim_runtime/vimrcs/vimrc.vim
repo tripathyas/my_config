@@ -65,6 +65,11 @@ set nofoldenable
 
 
 autocmd FileType python setlocal foldmethod=indent
+augroup mdbindings
+  autocmd! mdbindings
+  autocmd Filetype markdown setlocal conceallevel=2
+  autocmd Filetype markdown nnoremap <buffer> <silent> gO :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
+augroup end
 
 call plug#begin('~/.vim/plugged')
     Plug 'gruvbox-community/gruvbox'
@@ -107,6 +112,8 @@ map <leader>cc :botright cope<cr>
 map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
 map <leader>cn :cn<cr>
 map <leader>cp :cp<cr>
+map <leader>cf :cfirst<cr>
+map <leader>cl :clast<cr>
 
 set ssop-=options    " do not store global and local values in a session
 
@@ -223,11 +230,11 @@ if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    -- virtual_text = {
-    --   spacing = 4,
-    --   prefix = '~',
-    -- },
+    --virtual_text = false,
+    virtual_text = {
+      spacing = 4,
+      prefix = '~',
+    },
     signs = true,
     update_in_insert = false,
   }
