@@ -45,6 +45,7 @@ set whichwrap+=<,>,h,l
 " Don't redraw while executing macros (good performance config)
 set lazyredraw 
 
+set nocscopeverbose
 
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -84,6 +85,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'google/vim-maktaba'
     Plug 'google/vim-codefmt'
     Plug 'skywind3000/asyncrun.vim'
+    Plug 'dense-analysis/ale'
     if v:version < 800
         Plug 'junegunn/fzf', {}
         Plug 'google/vim-glaive', {}
@@ -106,6 +108,10 @@ colorscheme gruvbox
 let mapleader = " "
 
 nnoremap <silent> <leader>wo :only<cr>
+nnoremap <silent> <leader>af :ALEFirst<cr>
+nnoremap <silent> <leader>al :ALELast<cr>
+nnoremap <silent> <leader>an :ALENext<cr>
+nnoremap <silent> <leader>ap :ALEPrevious<cr>
 nmap <leader>bl <c-^><cr>
 
 map <leader>cc :botright cope<cr>
@@ -120,7 +126,8 @@ set ssop-=options    " do not store global and local values in a session
 
 
 
-nnoremap <leader>fg :Ack<Space>
+cnoreabbrev Ack Ack!
+nnoremap <leader>fg :Ack!<Space>
 
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
@@ -147,18 +154,20 @@ if has('nvim')
     lua require'lspconfig'.pyls.setup{}
     lua require'lspconfig'.gopls.setup{}
     lua require'lspconfig'.rust_analyzer.setup{}
+    lua require'lspconfig'.bashls.setup{}
     " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
 
     "nnoremap <leader>ff <cmd>Telescope git_files<cr>
-    nnoremap <leader>ff <cmd>Telescope find_files<cr>
+    "nnoremap <leader>fF <cmd>Telescope find_files<cr>
     "nnoremap <leader>fb <cmd>Telescope buffers<cr>
     nnoremap <leader>fh <cmd>Telescope command_history<cr>
     nnoremap <leader>fH <cmd>Telescope help_tags<cr>
 else
-    nnoremap <leader>fF :Files<CR>
+
 endif
 nmap <Leader>fb  :Buffers<CR>
 nnoremap <leader>ff :GFiles<CR>
+nnoremap <leader>fF :Files<CR>
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
