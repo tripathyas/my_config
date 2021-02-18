@@ -187,6 +187,15 @@ nnoremap <silent> <leader>s3 : call CreateSession('s3') <cr>
 nnoremap <silent> <leader>s4 : call CreateSession('s4') <cr>
 nnoremap <silent> <leader>s5 : call CreateSession('s5') <cr>
 
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'eslint', 'typecheck'],
+\   'python': ['pylint', 'flake8', 'mypy'],
+\   'go': ['go', 'golint', 'errcheck']
+\}
+let g:ale_javascript_prettier_eslint_use_global = 1
+let g:ale_javascript_eslint_use_global = 1
+
 function! CreateSession(sessionName)
     exe "mks! ". a:sessionName
     echo "created session ". a:sessionName
