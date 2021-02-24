@@ -112,6 +112,8 @@ nnoremap <silent> <leader>af :ALEFirst<cr>
 nnoremap <silent> <leader>al :ALELast<cr>
 nnoremap <silent> <leader>an :ALENext<cr>
 nnoremap <silent> <leader>ap :ALEPrevious<cr>
+nnoremap <silent> <leader>ae :ALEEnable<cr>
+nnoremap <silent> <leader>ad :ALEDisable<cr>
 nmap <leader>bl <c-^><cr>
 
 map <leader>cc :botright cope<cr>
@@ -123,8 +125,10 @@ map <leader>cl :clast<cr>
 
 set ssop-=options    " do not store global and local values in a session
 
-
-
+vnoremap <silent> <leader>vy "+y
+nnoremap <silent> <leader>vp "+p
+nnoremap <silent> <leader>vP "+P
+nnoremap <silent> <leader>vw :w!<cr>
 
 cnoreabbrev Ack Ack!
 nnoremap <leader>fg :Ack!<Space>
@@ -195,6 +199,7 @@ let g:ale_linters = {
 \}
 let g:ale_javascript_prettier_eslint_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
+let g:ale_enabled = 0
 
 function! CreateSession(sessionName)
     exe "mks! ". a:sessionName
@@ -248,11 +253,11 @@ if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    --virtual_text = false,
-    virtual_text = {
-      spacing = 4,
-      prefix = '~',
-    },
+    virtual_text = false,
+    --virtual_text = {
+    --  spacing = 4,
+    --  prefix = '~',
+    --},
     signs = true,
     update_in_insert = false,
   }
