@@ -64,39 +64,6 @@ set foldnestmax=10
 set foldlevel=4
 set nofoldenable
 
-call plug#begin('~/.vim/plugged')
-    Plug 'gruvbox-community/gruvbox'
-    Plug 'mbbill/undotree'
-    Plug 'tpope/vim-fugitive'
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'mileszs/ack.vim'
-    Plug 'preservim/nerdtree'
-    Plug 'junegunn/fzf.vim'
-    Plug 'itchyny/lightline.vim'
-    Plug 'google/vim-maktaba'
-    Plug 'google/vim-codefmt'
-    Plug 'skywind3000/asyncrun.vim'
-    Plug 'dense-analysis/ale'
-    if v:version < 800
-        Plug 'junegunn/fzf', {}
-        Plug 'google/vim-glaive', {}
-    else
-        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-        Plug 'google/vim-glaive', { 'do': { -> glaive#Install() } }
-    endif
-
-    if has('nvim')
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-        Plug 'neovim/nvim-lspconfig'
-    else
-    endif
-call plug#end()
-
-
-
-colorscheme gruvbox
 let mapleader = " "
 
 nnoremap <silent> <leader>wo :only<cr>
@@ -117,10 +84,10 @@ map <leader>cl :clast<cr>
 
 set ssop-=options    " do not store global and local values in a session
 
-vnoremap <silent> <leader>vy "+y
-nnoremap <silent> <leader>vp "+p
-nnoremap <silent> <leader>vP "+P
-nnoremap <silent> <leader>vw :w!<cr>
+vnoremap <leader>vy "+y
+nnoremap <leader>vp "+p
+nnoremap <leader>vP "+P
+nnoremap <leader>vw :w!<cr>
 
 cnoreabbrev Ack Ack!
 nnoremap <leader>fg :Ack!<Space>
@@ -129,41 +96,6 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
-if has('nvim')
-          
-    set completeopt=menuone,noinsert,noselect
-
-    nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> gsh :lua vim.lsp.buf.signature_help()<CR>
-    nnoremap <silent> grr :lua vim.lsp.buf.references()<CR>
-    nnoremap <silent> grn :lua vim.lsp.buf.rename()<CR>
-    nnoremap <silent> gh :lua vim.lsp.buf.hover()<CR>
-    nnoremap <silent> gca :lua vim.lsp.buf.code_action()<CR>
-    nnoremap <silent> gsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
-
-
-
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-    lua require'lspconfig'.tsserver.setup{}
-    lua require'lspconfig'.clangd.setup{}
-    lua require'lspconfig'.pyls.setup{}
-    lua require'lspconfig'.gopls.setup{}
-    lua require'lspconfig'.rust_analyzer.setup{}
-    lua require'lspconfig'.bashls.setup{}
-    " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
-
-    "nnoremap <leader>ff <cmd>Telescope git_files<cr>
-    "nnoremap <leader>fF <cmd>Telescope find_files<cr>
-    "nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope command_history<cr>
-    nnoremap <leader>fH <cmd>Telescope help_tags<cr>
-else
-
-endif
-nmap <Leader>fb  :Buffers<CR>
-nnoremap <leader>ff :GFiles<CR>
-nnoremap <leader>fF :Files<CR>
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
@@ -183,22 +115,10 @@ nnoremap <silent> <leader>s3 : call CreateSession('s3') <cr>
 nnoremap <silent> <leader>s4 : call CreateSession('s4') <cr>
 nnoremap <silent> <leader>s5 : call CreateSession('s5') <cr>
 
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'typescript': ['tsserver', 'eslint', 'typecheck'],
-\   'python': ['pylint', 'flake8', 'mypy'],
-\   'go': ['go', 'golint', 'errcheck']
-\}
-let g:ale_javascript_prettier_eslint_use_global = 1
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_enabled = 0
-
 function! CreateSession(sessionName)
     exe "mks! ". a:sessionName
     echo "created session ". a:sessionName
 endfunction
-
-
 
 function! CscopeDone()
 	exe "cs add cscope.out"
@@ -213,34 +133,6 @@ endfunction
 
 command! CscopeUpdate call CscopeUpdate()
  
-
-set rtp+=~/.vim_runtime/my_plugins/fzf
-nmap <Leader>fl :Lines<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=0
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-map <silent> <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <silent> <leader>nf :NERDTreeFind<cr>
-let g:NERDTreeChDirMode=2
-let g:NERDTreeWinSize=50
-autocmd FileType nerdtree setlocal relativenumber
-
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'bufnum', 'filename', 'readonly', 'modified', 'gitbranch', 'relativepath' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
-
 if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -297,8 +189,113 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
+"------------------breking change for remote machine having vim <8
+call plug#begin('~/.vim/plugged')
+    Plug 'gruvbox-community/gruvbox'
+    Plug 'mbbill/undotree'
+    Plug 'tpope/vim-fugitive'
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'mileszs/ack.vim'
+    Plug 'preservim/nerdtree'
+    Plug 'junegunn/fzf.vim'
+    Plug 'itchyny/lightline.vim'
+    Plug 'google/vim-maktaba'
+    Plug 'google/vim-codefmt'
+    Plug 'skywind3000/asyncrun.vim'
+    Plug 'dense-analysis/ale'
+    if v:version < 800
+        Plug 'junegunn/fzf', {}
+        Plug 'google/vim-glaive', {}
+    else
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+        Plug 'google/vim-glaive', { 'do': { -> glaive#Install() } }
+    endif
+
+    if has('nvim')
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        Plug 'neovim/nvim-lspconfig'
+    endif
+call plug#end()
+
+
+
+colorscheme gruvbox
 if g:colors_name == 'gruvbox'
     set bg=dark
     hi Search cterm=NONE ctermfg=black ctermbg=Grey
     hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
 fi
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'eslint', 'typecheck'],
+\   'python': ['pylint', 'flake8', 'mypy'],
+\   'go': ['go', 'golint', 'errcheck']
+\}
+let g:ale_javascript_prettier_eslint_use_global = 1
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_enabled = 0
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Nerd Tree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NERDTreeWinPos = "left"
+let NERDTreeShowHidden=0
+let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+map <silent> <leader>nn :NERDTreeToggle<cr>
+map <leader>nb :NERDTreeFromBookmark<Space>
+map <silent> <leader>nf :NERDTreeFind<cr>
+let g:NERDTreeChDirMode=2
+let g:NERDTreeWinSize=50
+autocmd FileType nerdtree setlocal relativenumber
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'bufnum', 'filename', 'readonly', 'modified', 'gitbranch', 'relativepath' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
+nmap <Leader>fb  :Buffers<CR>
+nnoremap <leader>ff :GFiles<CR>
+nnoremap <leader>fF :Files<CR>
+nmap <Leader>fl :Lines<CR>
+
+set rtp+=~/.vim_runtime/my_plugins/fzf
+if has('nvim')
+          
+    set completeopt=menuone,noinsert,noselect
+
+    nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
+    nnoremap <silent> gsh :lua vim.lsp.buf.signature_help()<CR>
+    nnoremap <silent> grr :lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> grn :lua vim.lsp.buf.rename()<CR>
+    nnoremap <silent> gh :lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> gca :lua vim.lsp.buf.code_action()<CR>
+    nnoremap <silent> gsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+
+
+
+    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    lua require'lspconfig'.tsserver.setup{}
+    lua require'lspconfig'.clangd.setup{}
+    lua require'lspconfig'.pyls.setup{}
+    lua require'lspconfig'.gopls.setup{}
+    lua require'lspconfig'.rust_analyzer.setup{}
+    lua require'lspconfig'.bashls.setup{}
+    " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
+
+    "nnoremap <leader>ff <cmd>Telescope git_files<cr>
+    "nnoremap <leader>fF <cmd>Telescope find_files<cr>
+    "nnoremap <leader>fb <cmd>Telescope buffers<cr>
+    nnoremap <leader>fh <cmd>Telescope command_history<cr>
+    nnoremap <leader>fH <cmd>Telescope help_tags<cr>
+endif
