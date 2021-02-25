@@ -64,14 +64,6 @@ set foldnestmax=10
 set foldlevel=4
 set nofoldenable
 
-
-autocmd FileType python setlocal foldmethod=indent
-augroup mdbindings
-  autocmd! mdbindings
-  autocmd Filetype markdown setlocal conceallevel=2
-  autocmd Filetype markdown nnoremap <buffer> <silent> gO :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
-augroup end
-
 call plug#begin('~/.vim/plugged')
     Plug 'gruvbox-community/gruvbox'
     Plug 'mbbill/undotree'
