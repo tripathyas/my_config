@@ -194,8 +194,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'gruvbox-community/gruvbox'
     Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
     Plug 'mileszs/ack.vim'
     Plug 'preservim/nerdtree'
     Plug 'junegunn/fzf.vim'
@@ -213,7 +211,10 @@ call plug#begin('~/.vim/plugged')
     endif
 
     if has('nvim')
+        Plug 'nvim-lua/popup.nvim'
         Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
+
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
     endif
@@ -221,9 +222,7 @@ call plug#end()
 
 
 
-colorscheme gruvbox
 if g:colors_name == 'gruvbox'
-    set bg=dark
     hi Search cterm=NONE ctermfg=black ctermbg=Grey
     hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
 fi
@@ -299,3 +298,5 @@ if has('nvim')
     nnoremap <leader>fh <cmd>Telescope command_history<cr>
     nnoremap <leader>fH <cmd>Telescope help_tags<cr>
 endif
+set bg=dark
+set colorscheme gruvbox
