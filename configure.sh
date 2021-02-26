@@ -2,6 +2,7 @@
 
 mkdir -p ~/.config/nvim
 mkdir -p ~/.vim/after/ftplugin/
+
 ln -sf ~/.config/my_config/.ackrc ~/.ackrc
 ln -sf ~/.config/my_config/.bashrc ~/.bashrc
 ln -sf ~/.config/my_config/.gitconfig ~/.gitconfig
@@ -27,9 +28,11 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Do something under GNU/Linux platform
   echo "Extracting nvim"
   ./nvim.appimage --appimage-extract
+  sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim
 fi
 
-[ -f ~/.vim/autoload/plug.vim ] || echo "Installed plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+[ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+vim -c 'PlugInstall' -c 'qa'
 
 #./vim_runtime/my_plugins/fzf/install
 #git submodule update --init --recursive

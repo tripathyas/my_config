@@ -1,19 +1,28 @@
-which apt;
+#!/bin/bash
+
+#-------------------start_usage---------------------
+:'
+[[ -d ~/.config/my_config ]] && git -C ~/.config/my_config pull
+[[ -d ~/.config/my_config ]] || git clone --depth=1 https://github.com/ashutosh-tripathy/my_config.git ~/.config/my_config
+cd ~/.config/my_config && sudo ./install.sh && ./configure.sh
+'
+#-------------------end_usage---------------------
+
+which apt
 if [ $? -eq 0 ]; then
-    mgr='apt-get'
+  mgr='apt-get'
 else
-    mgr='yum'
+  mgr='yum'
 fi
 
-echo sudo $mgr update;
-echo sudo $mgr install -y fzf neovim ripgrep python3-pip pylint python3-autopep8 tmux autojump ctags cscope tldr;
-sudo $mgr update;
-sudo $mgr install -y fzf neovim ripgrep python3-pip pylint python3-autopep8 tmux autojump ctags cscope tldr;
+echo sudo $mgr update
+echo sudo $mgr install -y fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr
+sudo $mgr update
+sudo $mgr install -y git fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr
 
 if [ "$(uname)" == "Darwin" ]; then
-    # Do something under Mac OS X platform        
-    echo 
+  # Do something under Mac OS X platform
+  echo
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    # Do something under GNU/Linux platform
-    sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim
+  # Do something under GNU/Linux platform
 fi
