@@ -191,7 +191,6 @@ endfunction
 
 "------------------breking change for remote machine having vim <8
 call plug#begin('~/.vim/plugged')
-    Plug 'gruvbox-community/gruvbox'
     Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
     Plug 'mileszs/ack.vim'
@@ -211,6 +210,7 @@ call plug#begin('~/.vim/plugged')
     endif
 
     if has('nvim')
+        Plug 'gruvbox-community/gruvbox'
         Plug 'nvim-lua/popup.nvim'
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
@@ -221,12 +221,6 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 
-colorscheme gruvbox
-if g:colors_name == 'gruvbox'
-    set bg=dark
-    hi Search cterm=NONE ctermfg=black ctermbg=Grey
-    hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
-fi
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
@@ -271,6 +265,12 @@ nmap <Leader>fl :Lines<CR>
 set rtp+=~/.vim_runtime/my_plugins/fzf
 if has('nvim')
           
+    colorscheme gruvbox
+    if g:colors_name == 'gruvbox'
+        set bg=dark
+        hi Search cterm=NONE ctermfg=black ctermbg=Grey
+        hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
+    fi
     set completeopt=menuone,noinsert,noselect
 
     nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
