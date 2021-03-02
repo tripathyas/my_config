@@ -109,11 +109,12 @@ endfunction
 command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
-nnoremap <silent> <leader>s1 : call CreateSession('s1') <cr>
-nnoremap <silent> <leader>s2 : call CreateSession('s2') <cr>
-nnoremap <silent> <leader>s3 : call CreateSession('s3') <cr>
-nnoremap <silent> <leader>s4 : call CreateSession('s4') <cr>
-nnoremap <silent> <leader>s5 : call CreateSession('s5') <cr>
+nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
+nnoremap <silent> <leader>s2 : call CreateSession('Session2.vim') <cr>
+nnoremap <silent> <leader>s3 : call CreateSession('session3.vim') <cr>
+nnoremap <silent> <leader>s4 : call CreateSession('session4.vim') <cr>
+nnoremap <silent> <leader>s5 : call CreateSession('session5.vim') <cr>
+
 
 function! CreateSession(sessionName)
     exe "mks! ". a:sessionName

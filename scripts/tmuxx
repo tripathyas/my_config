@@ -1,0 +1,46 @@
+#!/bin/bash
+
+create_session() {
+  case $1 in
+
+    4)
+      if ! tmux has-session -t 4; then
+        tmux new -s 4 -d
+
+        tmux send-keys -t 4:0 "j onedrive; nvims" Enter
+        tmux rename-window -t 4:0 vmware
+
+        tmux new-window -t 4:1
+        tmux send-keys -t 4:1 "j help; nvims" Enter
+        tmux rename-window -t 4:1 help
+
+        tmux new-window -t 4:2
+        tmux send-keys -t 4:2 "j config; nvims" Enter
+        tmux rename-window -t 4:2 config
+
+        tmux select-window -t 4:0
+      fi
+      tmux attach -t 4
+      ;;
+
+    2)
+      if ! tmux has-session -t 2; then
+        tmux new -s 2 -d
+
+        tmux send-keys -t 2:0 "j edge; nvims" Enter
+        tmux rename-window -t 2:0 edge
+
+        tmux new-window -t 2:1
+
+        tmux select-window -t 2:0
+      fi
+      tmux attach -t 2
+      ;;
+
+    *)
+      echo 'usage: tmuxx 4'
+      ;;
+  esac
+}
+
+create_session $1
