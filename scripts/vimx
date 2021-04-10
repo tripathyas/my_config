@@ -2,7 +2,7 @@
 
 nvim='vim'
 param=""
-session=$(ls -t| grep -e '^s[0-9]$' | head -n 1)
+session=$(ls -t| grep -e '^Session[0-9].vim$' | head -n 1)
 if [ ! -z $session ]; then
     param="-S $session"
 fi

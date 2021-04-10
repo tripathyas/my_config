@@ -111,9 +111,9 @@ command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
 nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
 nnoremap <silent> <leader>s2 : call CreateSession('Session2.vim') <cr>
-nnoremap <silent> <leader>s3 : call CreateSession('session3.vim') <cr>
-nnoremap <silent> <leader>s4 : call CreateSession('session4.vim') <cr>
-nnoremap <silent> <leader>s5 : call CreateSession('session5.vim') <cr>
+nnoremap <silent> <leader>s3 : call CreateSession('Session3.vim') <cr>
+nnoremap <silent> <leader>s4 : call CreateSession('Session4.vim') <cr>
+nnoremap <silent> <leader>s5 : call CreateSession('Session5.vim') <cr>
 
 
 function! CreateSession(sessionName)
@@ -138,11 +138,11 @@ if has('nvim')
 lua << EOF
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    --virtual_text = false,
-    virtual_text = {
-      spacing = 4,
-      prefix = '~',
-    },
+    virtual_text = false,
+    --virtual_text = {
+    --  spacing = 4,
+    --  prefix = '~',
+    --},
     signs = true,
     update_in_insert = false,
   }

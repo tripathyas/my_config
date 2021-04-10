@@ -15,7 +15,7 @@ create_session() {
         tmux rename-window -t 4:1 help
 
         tmux new-window -t 4:2
-        tmux send-keys -t 4:2 "cd /.config/my_config; nvimx" Enter
+        tmux send-keys -t 4:2 "cd ~/.config/my_config; nvimx" Enter
         tmux rename-window -t 4:2 config
 
         tmux select-window -t 4:0
@@ -25,16 +25,31 @@ create_session() {
 
     2)
       if ! tmux has-session -t 2; then
-        tmux new -s 2 -d
+        cd ~/code/edge-bootstrap; 
 
-        tmux send-keys -t 2:0 "cd ~/code/edge-bootstrap; nvimx" Enter
+        tmux new -s 2 -d
+        tmux send-keys -t 2:0 "nvimx" Enter
         tmux rename-window -t 2:0 edge
 
         tmux new-window -t 2:1
+        tmux send-keys -t 2:1
 
         tmux select-window -t 2:0
       fi
       tmux attach -t 2
+      ;;
+
+    'gcj')
+      if ! tmux has-session -t gcj; then
+        cd ~/repo/Git/Python_Projects/6-Google\ codejam/
+
+        tmux new -s gcj -d
+        tmux rename-window -t gcj:0 nodemon
+        tmux split-window -h
+        tmux resize-pane -L 40
+
+      fi
+      tmux attach -t gcj
       ;;
 
     *)
@@ -44,3 +59,5 @@ create_session() {
 }
 
 create_session $1
+
+
