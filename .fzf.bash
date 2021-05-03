@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */Users/tripathyas/.config/my_config/.vim_runtime/my_plugins/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/Users/tripathyas/.config/my_config/.vim_runtime/my_plugins/fzf/bin"
+if [[ ! "$PATH" == *~/.vim/plugged/fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}~/.vim/plugged/fzf/bin"
 fi
 
 # Auto-completion

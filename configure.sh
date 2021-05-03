@@ -33,5 +33,7 @@ fi
 [ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
 vim -c 'PlugInstall' -c 'qa'
 
+[[ -d ~/.tmux/plugins/tpm ]] || git clone --depth=1 --no-single-branch  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 # create cron job to update repo after reboot
 (crontab -l ; echo " @reboot git -C ~/.config/my_config pull") | sort - | uniq - | crontab -

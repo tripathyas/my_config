@@ -16,9 +16,10 @@ else
 fi
 
 echo sudo $mgr update
-echo sudo $mgr install -y fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr
+echo sudo $mgr install -y fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr vim xmonad libghc-xmonad-contrib-dev dmenu
 sudo $mgr update
-sudo $mgr install -y git fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr
+sudo $mgr install -y git fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr vim xmonad libghc-xmonad-contrib-dev dmenu
+
 
 if [ "$(uname)" == "Darwin" ]; then
   # Do something under Mac OS X platform
