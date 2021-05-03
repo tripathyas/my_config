@@ -1,14 +1,14 @@
 #!/bin/bash
 if [ -x "$(command -v nvim)" ]; then
-    nvim='nvim'
+  nvim='nvim'
 else
-    nvim='vim'
+  nvim='vim'
 fi
 
 # nvim='nvim'
 param=""
-session=$(ls -t| grep -e '^Session[0-9].vim$' | head -n 1)
+session=$(ls -t | grep -E '^Session([0-9]?).vim$' | head -n 1)
 if [ ! -z $session ]; then
-    param="-S $session"
+  param="-S $session"
 fi
 $nvim $param "$@"

@@ -33,3 +33,5 @@ fi
 [ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
 vim -c 'PlugInstall' -c 'qa'
 
+# create cron job to update repo after reboot
+(crontab -l ; echo " @reboot git -C ~/.config/my_config pull") | sort - | uniq - | crontab -
