@@ -26,6 +26,7 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
+set paste
 " Show matching brackets when text indicator is over them
 set showmatch 
 
@@ -67,12 +68,13 @@ set nofoldenable
 let mapleader = " "
 
 nnoremap <silent> <leader>wo :only<cr>
+
 nnoremap <silent> <leader>af :ALEFirst<cr>
 nnoremap <silent> <leader>al :ALELast<cr>
 nnoremap <silent> <leader>an :ALENext<cr>
 nnoremap <silent> <leader>ap :ALEPrevious<cr>
-nnoremap <silent> <leader>ae :ALEEnable<cr>
-nnoremap <silent> <leader>ad :ALEDisable<cr>
+nnoremap <silent> <leader>at :ALEToggle<cr>
+
 nmap <leader>bl <c-^><cr>
 
 map <leader>cc :botright cope<cr>
@@ -202,6 +204,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'google/vim-codefmt'
     Plug 'skywind3000/asyncrun.vim'
     Plug 'dense-analysis/ale'
+    Plug 'airblade/vim-gitgutter'
     if v:version < 800
         Plug 'junegunn/fzf', {}
         Plug 'google/vim-glaive', {}
@@ -232,6 +235,7 @@ let g:ale_linters = {
 let g:ale_javascript_prettier_eslint_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_enabled = 0
+let g:ale_lsp_show_message_severity = 'error'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
