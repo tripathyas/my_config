@@ -26,7 +26,6 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
-set paste
 " Show matching brackets when text indicator is over them
 set showmatch 
 
@@ -60,6 +59,7 @@ if has('signcolumn')
     set signcolumn=yes                                                          
 end
 
+"set foldmethod=syntax
 set foldnestmax=10
 set foldlevel=4
 set nofoldenable
@@ -109,6 +109,7 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
+setlocal foldmethod=indent
 autocmd FileType python setlocal foldmethod=indent foldnestmax=10 foldlevel=4
 
 " Delete trailing white space on save, useful for some filetypes ;)
@@ -227,15 +228,28 @@ call plug#begin('~/.vim/plugged')
 
     if has('nvim')
         Plug 'gruvbox-community/gruvbox'
-        Plug 'nvim-lua/popup.nvim'
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
+        Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
     endif
 call plug#end()
 
+lua << EOF
+    require("telescope").setup({
+        extensions = {
+            fzy_native = {
+                override_generic_sorter = false,
+                override_file_sorter = true,
+                minimum_grep_characters = 2,
+                minimum_files_characters = 2,
+            },
+        },
+    })
+    require("telescope").load_extension("fzy_native")
+EOF
 let g:gitgutter_enabled=0
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 nmap ]c <Plug>(GitGutterNextHunk)
@@ -302,6 +316,7 @@ if has('nvim')
         hi QuickFixLine cterm=NONE ctermfg=black ctermbg=Grey
     endif
     set completeopt=menuone,noinsert,noselect
+    nnoremap <leader>ff :Telescope find_files <CR>
 
     nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
