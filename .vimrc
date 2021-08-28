@@ -60,7 +60,6 @@ if has('signcolumn')
     set signcolumn=yes                                                          
 end
 
-set foldmethod=syntax
 set foldnestmax=10
 set foldlevel=4
 set nofoldenable
@@ -84,6 +83,18 @@ map <leader>cp :cp<cr>
 map <leader>cf :cfirst<cr>
 map <leader>cl :clast<cr>
 
+
+"--------------
+nnoremap Y y$
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+"undo break points
+inoremap . .<c-g>u
+inoremap , ,<c-g>u
+inoremap = =<c-g>u
+"--------------
+
 set ssop-=options    " do not store global and local values in a session
 
 vnoremap <leader>vy "+y
@@ -98,6 +109,7 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
+autocmd FileType python setlocal foldmethod=indent foldnestmax=10 foldlevel=4
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
@@ -224,6 +236,11 @@ call plug#begin('~/.vim/plugged')
     endif
 call plug#end()
 
+let g:gitgutter_enabled=0
+nnoremap <silent> <leader>d :GitGutterToggle<cr>
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+let g:gitgutter_map_keys = 0
 
 
 let g:ale_linters = {
@@ -251,6 +268,7 @@ let g:NERDTreeChDirMode=2
 let g:NERDTreeWinSize=50
 autocmd FileType nerdtree setlocal relativenumber
 
+
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
@@ -266,6 +284,13 @@ nmap <Leader>fb  :Buffers<CR>
 nnoremap <leader>ff :GFiles<CR>
 nnoremap <leader>fF :Files<CR>
 nmap <Leader>fl :Lines<CR>
+nmap <silent> <Leader>rt :call BufDo('set relativenumber!') <cr> 
+
+function! BufDo(command)
+  let currBuff=bufnr("%")
+  execute 'bufdo ' . a:command
+  execute 'buffer ' . currBuff
+endfunction
 
 set rtp+=~/.vim_runtime/my_plugins/fzf
 if has('nvim')
@@ -289,10 +314,13 @@ if has('nvim')
 
 
 
+    nnoremap <leader>fh <cmd>Telescope command_history<cr>
+    nnoremap <leader>fH <cmd>Telescope help_tags<cr>
+    nnoremap <leader>fL <cmd>Telescope live_grep<cr>
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+    lua require'lspconfig'.pyright.setup{}
     lua require'lspconfig'.tsserver.setup{}
     lua require'lspconfig'.clangd.setup{}
-    lua require'lspconfig'.pyls.setup{}
     lua require'lspconfig'.gopls.setup{}
     lua require'lspconfig'.rust_analyzer.setup{}
     lua require'lspconfig'.bashls.setup{}
@@ -301,6 +329,5 @@ if has('nvim')
     "nnoremap <leader>ff <cmd>Telescope git_files<cr>
     "nnoremap <leader>fF <cmd>Telescope find_files<cr>
     "nnoremap <leader>fb <cmd>Telescope buffers<cr>
-    nnoremap <leader>fh <cmd>Telescope command_history<cr>
-    nnoremap <leader>fH <cmd>Telescope help_tags<cr>
+
 endif

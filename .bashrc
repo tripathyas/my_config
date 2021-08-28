@@ -26,3 +26,5 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 [ -d "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
+[ -f ~/.config/my_config/shrc.sh ] && source ~/.config/my_config/shrc.sh 

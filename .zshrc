@@ -28,3 +28,5 @@ export LC_ALL=en_US.UTF-8
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
+
+[ -f ~/.config/my_config/shrc.sh ] && source ~/.config/my_config/shrc.sh 
