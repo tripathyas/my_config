@@ -52,6 +52,11 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+"nnoremap <silent> <M-J> :normal 4j<CR>
+"nnoremap <silent> <M-K> :normal 4k<CR>
+"xnoremap <silent> <C-J> :normal gv4j<CR>
+"xnoremap <silent> <C-K> :normal gv4k<CR>
+
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
@@ -140,30 +145,22 @@ function! CscopeDone()
 	exe "cs add cscope.out"
 endfunc
 
+
+
+function! CtagUpdate()
+    exe "AsyncRun git ls-files |  ctags  -R . -L-"
+endfunction
+
 function! CscopeUpdate()
 	try | exe "cs kill cscope.out" | catch | endtry
 	exe "AsyncRun -post=call\\ g:CscopeDone() ".
                 \ "git ls-files >cscope.files && ".
-				\ "cscope -bi cscope.files"
+				\ "cscope -bi cscope.files && (git ls-files |  ctags  -R . -L-)"
 endfunction
 
 command! CscopeUpdate call CscopeUpdate()
+command! CtagUpdate call CtagUpdate()
  
-if has('nvim')
-lua << EOF
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = false,
-    --virtual_text = {
-    --  spacing = 4,
-    --  prefix = '~',
-    --},
-    signs = true,
-    update_in_insert = false,
-  }
-)
-EOF
-endif
 
 if has("cscope")
 
@@ -237,19 +234,6 @@ call plug#begin('~/.vim/plugged')
     endif
 call plug#end()
 
-lua << EOF
-    require("telescope").setup({
-        extensions = {
-            fzy_native = {
-                override_generic_sorter = false,
-                override_file_sorter = true,
-                minimum_grep_characters = 2,
-                minimum_files_characters = 2,
-            },
-        },
-    })
-    require("telescope").load_extension("fzy_native")
-EOF
 let g:gitgutter_enabled=0
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 nmap ]c <Plug>(GitGutterNextHunk)
@@ -260,13 +244,14 @@ let g:gitgutter_map_keys = 0
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tsserver', 'eslint', 'typecheck'],
-\   'python': ['pylint', 'flake8', 'mypy'],
+\   'python': ['pyright', 'pylint', 'flake8', 'mypy'],
 \   'go': ['go', 'golint', 'errcheck']
 \}
 let g:ale_javascript_prettier_eslint_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
-let g:ale_enabled = 0
-let g:ale_lsp_show_message_severity = 'error'
+let g:ale_enabled = 1
+"let g:ale_lsp_show_message_severity = 'error'
+let g:ale_fix_on_save = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -319,13 +304,16 @@ if has('nvim')
     nnoremap <leader>ff :Telescope find_files <CR>
 
     nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> gD :lua vim.lsp.buf.definition()<CR>
     nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> gsh :lua vim.lsp.buf.signature_help()<CR>
     nnoremap <silent> grr :lua vim.lsp.buf.references()<CR>
     nnoremap <silent> grn :lua vim.lsp.buf.rename()<CR>
     nnoremap <silent> gh :lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> gca :lua vim.lsp.buf.code_action()<CR>
-    nnoremap <silent> gsd :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <silent> gld :lua vim.lsp.util.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+    nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
+    nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 
 
 
@@ -345,4 +333,32 @@ if has('nvim')
     "nnoremap <leader>fF <cmd>Telescope find_files<cr>
     "nnoremap <leader>fb <cmd>Telescope buffers<cr>
 
+endif
+
+if has('nvim')
+lua << EOF
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false,
+        --virtual_text = {
+        --  spacing = 4,
+        --  prefix = '~',
+        --},
+        signs = true,
+        update_in_insert = false,
+      }
+    )
+
+    require("telescope").setup({
+        extensions = {
+            fzy_native = {
+                override_generic_sorter = false,
+                override_file_sorter = true,
+                minimum_grep_characters = 2,
+                minimum_files_characters = 2,
+            },
+        },
+    })
+    require("telescope").load_extension("fzy_native")
+EOF
 endif
