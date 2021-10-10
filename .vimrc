@@ -5,6 +5,7 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+set paste
 
 set exrc
 set relativenumber
@@ -13,6 +14,7 @@ set hidden
 set ignorecase
 set smartcase
 
+set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
@@ -72,6 +74,7 @@ set nofoldenable
 let mapleader = " "
 
 nnoremap <silent> <leader>wo :only<cr>
+nnoremap <silent> <leader>to :tabonly<cr>
 
 nnoremap <silent> <leader>af :ALEFirst<cr>
 nnoremap <silent> <leader>al :ALELast<cr>
@@ -109,13 +112,19 @@ nnoremap <leader>vw :w!<cr>
 
 cnoreabbrev Ack Ack!
 nnoremap <leader>fg :Ack!<Space>
+"vnoremap <silent>fm  :<C-u>call VisualSelection('', '')<CR>Ack! def <C-R>=@/<CR>
 
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
-setlocal foldmethod=indent
+set foldmethod=indent
 autocmd FileType python setlocal foldmethod=indent foldnestmax=10 foldlevel=4
+
+function! FindMethod()
+    let l:w = expand("<cword>")
+    execute "Ack 'def " . l:w . "'"
+endfunction
 
 " Delete trailing white space on save, useful for some filetypes ;)
 function! TrimTrailingWhitespace()
@@ -129,6 +138,7 @@ endfunction
 command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
+nnoremap <leader>fm : call FindMethod() <cr>
 nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
 nnoremap <silent> <leader>s2 : call CreateSession('Session2.vim') <cr>
 nnoremap <silent> <leader>s3 : call CreateSession('Session3.vim') <cr>
@@ -251,7 +261,6 @@ let g:ale_javascript_prettier_eslint_use_global = 1
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_enabled = 1
 "let g:ale_lsp_show_message_severity = 'error'
-let g:ale_fix_on_save = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -320,6 +329,7 @@ if has('nvim')
     nnoremap <leader>fh <cmd>Telescope command_history<cr>
     nnoremap <leader>fH <cmd>Telescope help_tags<cr>
     nnoremap <leader>fL <cmd>Telescope live_grep<cr>
+    nnoremap <leader>fw <cmd>Telescope grep_string<cr>
     let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
     lua require'lspconfig'.pyright.setup{}
     lua require'lspconfig'.tsserver.setup{}
@@ -340,10 +350,10 @@ lua << EOF
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
-        --virtual_text = {
-        --  spacing = 4,
-        --  prefix = '~',
-        --},
+        virtual_text = {
+          spacing = 4,
+          prefix = '~',
+        },
         signs = true,
         update_in_insert = false,
       }
@@ -362,3 +372,37 @@ lua << EOF
     require("telescope").load_extension("fzy_native")
 EOF
 endif
+
+" Filter the quickfix list
+function! FilterQFList(type, action, pattern)
+    " get current quickfix list
+    let s:curList = getqflist()
+    let s:newList = []
+    for item in s:curList
+        if a:type == 0     " filter on file names
+            let s:cmpPat = bufname(item.bufnr)
+        elseif a:type == 1 " filter by line content
+            let s:cmpPat = item.text . item.pattern
+        endif
+        if item.valid
+            if a:action < 0
+                " Keep only nonmatching lines
+                if s:cmpPat !~ a:pattern
+                    let s:newList += [item]
+                endif
+            else
+                " Keep only matching lines
+                if s:cmpPat =~ a:pattern
+                    let s:newList += [item]
+                endif
+            endif
+        endif
+    endfor
+    call setqflist(s:newList)
+endfunction
+
+
+"nnoremap ø :call FilterQFList(0, -1, inputdialog('Remove file names matching:', ''))<CR>
+"nnoremap ø :call FilterQFList(0, 1, inputdialog('Keep only file names matching:', ''))<CR>
+"nnoremap qf :call FilterQFList(1, -1, inputdialog('Remove all lines matching:', ''))<CR>
+"nnoremap ww :call FilterQFList(1, 1, inputdialog('Keep only lines matching:', ''))<CR>
