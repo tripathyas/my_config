@@ -112,7 +112,6 @@ nnoremap <leader>vw :w!<cr>
 
 cnoreabbrev Ack Ack!
 nnoremap <leader>fg :Ack!<Space>
-"vnoremap <silent>fm  :<C-u>call VisualSelection('', '')<CR>Ack! def <C-R>=@/<CR>
 
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
@@ -120,10 +119,27 @@ endif
 
 set foldmethod=indent
 autocmd FileType python setlocal foldmethod=indent foldnestmax=10 foldlevel=4
+autocmd FileType markdown nnoremap go :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
 
 function! FindMethod()
     let l:w = expand("<cword>")
-    execute "Ack 'def " . l:w . "'"
+    execute "Ack -F 'def " . l:w . "('"
+endfunction
+
+function! FindClass()
+    let l:w = expand("<cword>")
+    execute "Ack 'class " . l:w . "'"
+endfunction
+
+function! FindTestMethod()
+    let l:shorter='test_'
+    let l:w = expand("<cword>")
+
+    if l:w[0:len(l:shorter)-1] ==# l:shorter
+        execute "Ack 'def " . l:w[len(l:shorter):len(l:w)-1] . "'"
+    else
+        execute "Ack 'def test_" . l:w . "'"
+    endif
 endfunction
 
 " Delete trailing white space on save, useful for some filetypes ;)
@@ -139,6 +155,8 @@ command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
 nnoremap <leader>fm : call FindMethod() <cr>
+nnoremap <leader>fc : call FindClass() <cr>
+nnoremap <leader>ftm : call FindTestMethod() <cr>
 nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
 nnoremap <silent> <leader>s2 : call CreateSession('Session2.vim') <cr>
 nnoremap <silent> <leader>s3 : call CreateSession('Session3.vim') <cr>
