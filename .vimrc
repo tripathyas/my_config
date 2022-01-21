@@ -14,7 +14,6 @@ set hidden
 set ignorecase
 set smartcase
 
-set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
@@ -322,6 +321,7 @@ set rtp+=~/.vim_runtime/my_plugins/fzf
 if has('nvim')
           
     colorscheme gruvbox
+    set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
     if g:colors_name == 'gruvbox'
         set bg=dark
         hi Search cterm=NONE ctermfg=black ctermbg=Grey

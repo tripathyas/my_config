@@ -30,3 +30,4 @@ zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
 [ -f ~/.config/my_config/shrc.sh ] && source ~/.config/my_config/shrc.sh 
+alias sshx='ssh -o "ServerAliveInterval 60"  -o "ServerAliveCountMax 120" '
