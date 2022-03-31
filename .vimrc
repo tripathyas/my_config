@@ -67,8 +67,14 @@ end
 
 "set foldmethod=syntax
 set foldnestmax=10
-set foldlevel=4
-set nofoldenable
+set foldlevel=10
+"set nofoldenable
+set foldenable
+syntax enable
+let g:sh_fold_enabled=5
+let g:is_sh=1
+set filetype=on
+set foldmethod=syntax
 
 let mapleader = " "
 
@@ -116,8 +122,9 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
-set foldmethod=indent
-autocmd FileType python setlocal foldmethod=indent foldnestmax=10 foldlevel=4
+autocmd FileType python setlocal foldmethod=indent foldnestmax=10
+
+
 autocmd FileType markdown nnoremap go :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
 
 function! FindMethod()

@@ -30,3 +30,5 @@ export LC_ALL=en_US.UTF-8
 [ -f ~/.config/my_config/shrc.sh ] && source ~/.config/my_config/shrc.sh 
 . "$HOME/.cargo/env"
 alias sshx='ssh -o "ServerAliveInterval 60"  -o "ServerAliveCountMax 120" '
+alias grepx='rg'
+alias findx='fd'
