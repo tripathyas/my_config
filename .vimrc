@@ -5,7 +5,7 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
-set paste
+"set paste
 
 set exrc
 set relativenumber
@@ -247,12 +247,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'google/vim-maktaba'
     Plug 'google/vim-codefmt'
     Plug 'skywind3000/asyncrun.vim'
-    Plug 'dense-analysis/ale'
     Plug 'airblade/vim-gitgutter'
     if v:version < 800
         Plug 'junegunn/fzf', {}
         Plug 'google/vim-glaive', {}
     else
+        Plug 'dense-analysis/ale'
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'google/vim-glaive', { 'do': { -> glaive#Install() } }
     endif
@@ -265,6 +265,7 @@ call plug#begin('~/.vim/plugged')
 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
+        Plug 'dense-analysis/ale'
     endif
 call plug#end()
 
