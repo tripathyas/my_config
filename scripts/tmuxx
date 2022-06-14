@@ -7,7 +7,7 @@ create_session() {
       if ! tmux has-session -t 4; then
         tmux new -s 4 -d
 
-        tmux send-keys -t 4:0 "j onedrive; nvimx" Enter
+        tmux send-keys -t 4:0 "cd ~/Dropbox/vmware; nvim vmware.md" Enter
         tmux rename-window -t 4:0 vmware
 
         tmux new-window -t 4:1
