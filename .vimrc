@@ -74,6 +74,7 @@ syntax enable
 let g:sh_fold_enabled=5
 let g:is_sh=1
 set filetype=on
+filetype plugin on
 set foldmethod=syntax
 
 let mapleader = " "
@@ -127,10 +128,6 @@ autocmd FileType python setlocal foldmethod=indent foldnestmax=10
 
 autocmd FileType markdown nnoremap go :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
 
-function! FindMethod()
-    let l:w = expand("<cword>")
-    execute "Ack -F 'def " . l:w . "('"
-endfunction
 
 function! FindClass()
     let l:w = expand("<cword>")
@@ -266,6 +263,7 @@ call plug#begin('~/.vim/plugged')
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
         Plug 'dense-analysis/ale'
+        Plug 'lervag/vimtex'
     endif
 call plug#end()
 
