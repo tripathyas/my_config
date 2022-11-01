@@ -27,6 +27,7 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
+set timeoutlen=300
 " Show matching brackets when text indicator is over them
 set showmatch 
 
@@ -74,7 +75,6 @@ syntax enable
 let g:sh_fold_enabled=5
 let g:is_sh=1
 set filetype=on
-filetype plugin on
 set foldmethod=syntax
 
 let mapleader = " "
@@ -129,11 +129,6 @@ autocmd FileType python setlocal foldmethod=indent foldnestmax=10
 autocmd FileType markdown nnoremap go :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
 
 
-function! FindClass()
-    let l:w = expand("<cword>")
-    execute "Ack 'class " . l:w . "'"
-endfunction
-
 function! FindTestMethod()
     let l:shorter='test_'
     let l:w = expand("<cword>")
@@ -157,7 +152,9 @@ endfunction
 command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
+nnoremap <leader>fml : call FindMethodLive() <cr>
 nnoremap <leader>fm : call FindMethod() <cr>
+nnoremap <leader>fcl : call FindClassLive() <cr>
 nnoremap <leader>fc : call FindClass() <cr>
 nnoremap <leader>ftm : call FindTestMethod() <cr>
 nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
