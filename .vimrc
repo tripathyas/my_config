@@ -27,7 +27,7 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
-set timeoutlen=300
+set timeoutlen=500
 " Show matching brackets when text indicator is over them
 set showmatch 
 
@@ -126,6 +126,7 @@ endif
 autocmd FileType python setlocal foldmethod=indent foldnestmax=10
 
 
+autocmd FileType markdown setlocal spelllang=en_us spellcapcheck=
 autocmd FileType markdown nnoremap go :exec 'lvimgrep /\v^#+.*(' . expand('<cword>') . ')/ %' \| :lopen<CR>
 
 
