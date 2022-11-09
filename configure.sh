@@ -16,6 +16,13 @@ ln -sf ~/.config/my_config/.fzf.bash ~/.fzf.bash
 ln -sf ~/.config/my_config/.fzf.zsh ~/.fzf.zsh
 ln -sf ~/.config/my_config/.rgignore ~/.rgignore
 
+[ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+vim -c 'PlugInstall' -c 'qa'
+nvim -c 'PlugInstall' -c 'qa'
+
+
+# LOCAL SYSTEM SETUP
+
 for file in ~/.config/my_config/filetype/*; do
   ln -sf $file ~/.vim/after/ftplugin/$(basename $file)
 done
@@ -30,9 +37,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   sudo ln -sf ~/.config/my_config/squashfs-root/usr/bin/nvim /usr/bin/nvim
 fi
 
-[ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
-vim -c 'PlugInstall' -c 'qa'
-nvim -c 'PlugInstall' -c 'qa'
 
 [[ -d ~/.tmux/plugins/tpm ]] || git clone --depth=1 --no-single-branch  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 

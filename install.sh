@@ -15,6 +15,8 @@ else
   mgr='yum'
 fi
 
+echo sudo $mgr install -y fzf ripgrep autojump 
+
 echo sudo $mgr update
 echo sudo $mgr install -y fzf ripgrep python3-pip pylint tmux autojump ctags cscope tldr vim xmonad libghc-xmonad-contrib-dev dmenu
 sudo $mgr update
