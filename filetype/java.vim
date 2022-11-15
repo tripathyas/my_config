@@ -10,7 +10,7 @@ endfunction
 
 function! FindClass()
     let l:w = expand("<cword>")
-    execute "Ack 'class " . l:w . "'"
+    execute "Ack -F 'class " . l:w . "('"
 endfunction
 
 function! FindClassLive()

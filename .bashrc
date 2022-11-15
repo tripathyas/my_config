@@ -28,7 +28,8 @@ export LC_ALL=en_US.UTF-8
 [ -d "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 [ -f ~/.config/my_config/shrc.sh ] && source ~/.config/my_config/shrc.sh 
-. "$HOME/.cargo/env"
+[ -f ~/.cargo/env ] && . "$HOME/.cargo/env"
 alias sshx='ssh -o "ServerAliveInterval 60"  -o "ServerAliveCountMax 120" '
 alias grepx='rg'
 alias findx='fd'
+force_color_prompt=yes
