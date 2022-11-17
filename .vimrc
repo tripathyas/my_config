@@ -27,7 +27,7 @@ set nocompatible
 set exrc
 set hlsearch
 set laststatus=2
-set timeoutlen=500
+"set timeoutlen=500
 " Show matching brackets when text indicator is over them
 set showmatch 
 
@@ -212,6 +212,26 @@ if has("cscope")
 
     " show msg when any other cscope db added
     set cscopeverbose
+    	nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+        nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+        nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+        nmap <C-_>a :cs find a <C-R>=expand("<cword>")<CR><CR>
+		"0 or s: Find this C symbol
+		"1 or g: Find this definition
+		"2 or d: Find functions called by this function
+		"3 or c: Find functions calling this function
+		"4 or t: Find this text string
+		"6 or e: Find this egrep pattern
+		"7 or f: Find this file
+		"8 or i: Find files #including this file
+		"9 or a: Find places where this symbol is assigned a value
+
+
 endif
 
 function! VisualSelection(direction, extra_filter) range
