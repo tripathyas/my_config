@@ -153,9 +153,9 @@ endfunction
 command! -bang Trimtrailingwhitespace call TrimTrailingWhitespace()
 command! -bang Bufferonly silent! execute "%bd|e#|bd#"
 
-nnoremap <leader>fml : call FindMethodLive() <cr>
+"nnoremap <leader>fcl : call FindClassLive() <cr>
+"nnoremap <leader>fml : call FindMethodLive() <cr>
 nnoremap <leader>fm : call FindMethod() <cr>
-nnoremap <leader>fcl : call FindClassLive() <cr>
 nnoremap <leader>fc : call FindClass() <cr>
 nnoremap <leader>ftm : call FindTestMethod() <cr>
 nnoremap <silent> <leader>s1 : call CreateSession('Session1.vim') <cr>
@@ -280,6 +280,7 @@ call plug#begin('~/.vim/plugged')
 
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'neovim/nvim-lspconfig'
+        Plug 'mfussenegger/nvim-jdtls'
         Plug 'dense-analysis/ale'
         Plug 'lervag/vimtex'
     endif
@@ -329,10 +330,10 @@ let g:lightline = {
       \ },
       \ }
 
-nmap <Leader>fb  :Buffers<CR>
+nmap <Leader>fb  :exec 'Telescope buffers'<CR>
 nnoremap <leader>ff :GFiles<CR>
 nnoremap <leader>fF :Files<CR>
-nmap <Leader>fl :Lines<CR>
+nmap <Leader>fl :execute 'Telescope live_grep' <cr>
 nmap <silent> <Leader>rt :call BufDo('set relativenumber!') <cr> 
 
 function! BufDo(command)
@@ -379,6 +380,7 @@ if has('nvim')
     lua require'lspconfig'.gopls.setup{}
     lua require'lspconfig'.rust_analyzer.setup{}
     lua require'lspconfig'.bashls.setup{}
+    lua require'lspconfig'.jdtls.setup{}
     " lua require'nvim_lsp'.sumneko_lua.setup{ on_attach=require'completion'.on_attach }
 
     "nnoremap <leader>ff <cmd>Telescope git_files<cr>
@@ -448,3 +450,5 @@ endfunction
 "nnoremap ø :call FilterQFList(0, 1, inputdialog('Keep only file names matching:', ''))<CR>
 "nnoremap qf :call FilterQFList(1, -1, inputdialog('Remove all lines matching:', ''))<CR>
 "nnoremap ww :call FilterQFList(1, 1, inputdialog('Keep only lines matching:', ''))<CR>
+
+

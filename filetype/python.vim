@@ -1,19 +1,24 @@
-setlocal foldmethod=indent
 
-function! FindMethod()
-    let l:w = expand("<cword>")
-    execute "Ack -F 'def " . l:w . "('"
-endfunction
+augroup python_files "{{{
+        au!
 
-function! FindMethodLive()
-    execute "Telescope live_grep default_text=def " 
-endfunction
+        setlocal foldmethod=indent
+        function! FindMethod()
+            let l:w = expand("<cword>")
+            execute "Ack -F 'def " . l:w . "('"
+        endfunction
 
-function! FindClass()
-    let l:w = expand("<cword>")
-    execute "Ack 'class " . l:w . "'"
-endfunction
+        function! FindMethodLive()
+            execute "Telescope live_grep default_text=def " 
+        endfunction
 
-function! FindClassLive()
-    execute "Telescope live_grep default_text=class " 
-endfunction
+        function! FindClass()
+            let l:w = expand("<cword>")
+            execute "Ack 'class " . l:w . "'"
+        endfunction
+
+        function! FindClassLive()
+            execute "Telescope live_grep default_text=class " 
+        endfunction
+
+augroup end "}}}

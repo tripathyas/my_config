@@ -34,6 +34,10 @@ create_session() {
         tmux new-window -t 2:1
         tmux send-keys -t 2:1
 
+        tmux new-window -t 2:2
+        tmux send-keys -t 2:2 "cd /Users/tripathyas/repo/code/ccp/mantis-analytics-service; nvimx" Enter
+        tmux rename-window -t 2:2 mantis-an
+
         tmux select-window -t 2:0
       fi
       tmux attach -t 2
