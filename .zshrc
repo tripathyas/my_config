@@ -33,3 +33,7 @@ bindkey "^X^E" edit-command-line
 alias sshx='ssh -o "ServerAliveInterval 60"  -o "ServerAliveCountMax 120" '
 alias grepx='rg'
 alias findx='fd'
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/tripathyas/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
