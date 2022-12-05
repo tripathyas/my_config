@@ -165,6 +165,7 @@ nnoremap <silent> <leader>s4 : call CreateSession('Session4.vim') <cr>
 nnoremap <silent> <leader>s5 : call CreateSession('Session5.vim') <cr>
 
 
+set mouse=
 function! CreateSession(sessionName)
     exe "mks! ". a:sessionName
     echo "created session ". a:sessionName
@@ -330,7 +331,7 @@ let g:lightline = {
       \ },
       \ }
 
-nmap <Leader>fb  :exec 'Telescope buffers'<CR>
+nmap <Leader>fb  :Buffers<CR>
 nnoremap <leader>ff :GFiles<CR>
 nnoremap <leader>fF :Files<CR>
 nmap <Leader>fl :execute 'Telescope live_grep' <cr>
@@ -345,6 +346,7 @@ endfunction
 set rtp+=~/.vim_runtime/my_plugins/fzf
 if has('nvim')
           
+    nmap <Leader>fb  :exec 'Telescope buffers'<CR>
     colorscheme gruvbox
     set cscopequickfix=s-,c-,d-,i-,t-,e-,a-
     if g:colors_name == 'gruvbox'
