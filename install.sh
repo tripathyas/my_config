@@ -29,3 +29,6 @@ if [ "$(uname)" == "Darwin" ]; then
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Do something under GNU/Linux platform
 fi
+'
+sudo apt-get install -y git fzf ripgrep python3-pip pylint tmux autojump cscope tldr vim neovim exuberant-ctags curl
+'
