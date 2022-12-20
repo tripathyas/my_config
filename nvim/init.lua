@@ -120,6 +120,12 @@ vim.wo.signcolumn = 'yes'
 -- vim.o.termguicolors = true
 -- vim.cmd [[colorscheme onedark]]
 vim.cmd [[colorscheme gruvbox]]
+local options = { noremap = true }
+
+vim.keymap.set('n', '<c-j>', "<c-w>j", options)
+vim.keymap.set('n', '<c-k>', "<c-w>k", options)
+vim.keymap.set('n', '<c-h>', "<c-w>h", options)
+vim.keymap.set('n', '<c-l>', "<c-w>l", options)
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -317,7 +323,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('<C-sd>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
