@@ -3,7 +3,7 @@ local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nv
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   is_bootstrap = true
-  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
   vim.cmd [[packadd packer.nvim]]
 end
 
@@ -51,12 +51,40 @@ require('packer').startup(function(use)
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
   use 'morhetz/gruvbox'
+  use 'mileszs/ack.vim'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+  }
+
+  require 'nvim-web-devicons'.setup {
+    -- your personnal icons can go here (to override)
+    -- you can specify color or cterm_color instead of specifying both of them
+    -- DevIcon will be appended to `name`
+    override = {
+      zsh = {
+        icon = "",
+        color = "#428850",
+        cterm_color = "65",
+        name = "Zsh"
+      }
+    };
+    -- globally enable different highlight colors per icon (default to true)
+    -- if set to false all icons will have the default icon's color
+    color_icons = true;
+    -- globally enable default icons (default to false)
+    -- will get overriden by `get_icons` option
+    default = true;
+  }
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -120,6 +148,7 @@ vim.wo.signcolumn = 'yes'
 -- vim.o.termguicolors = true
 -- vim.cmd [[colorscheme onedark]]
 vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey]]
 local options = { noremap = true }
 
 vim.keymap.set('n', '<c-j>', "<c-w>j", options)
@@ -202,6 +231,36 @@ require('telescope').setup {
   },
 }
 
+---------------- nvim-tree-------------------
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+
+-- empty setup using defaults
+-- require("nvim-tree").setup()
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 40,
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
+
+-------------------------------------------
+
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -218,12 +277,38 @@ end, { desc = '[/] Fuzzily search in current buffer]' })
 
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').git_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>fF', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>fl', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>fg', function() return ":Ack " end, {expr = true, noremap = true})
+vim.keymap.set('v', '<leader>vy', '"+y', {noremap = true})
+vim.keymap.set('n', '<leader>vp', '"+p', {noremap = true})
 
+vim.keymap.set('n', '<leader>cc', ':botright cope<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>cn', ':cn<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>cp', ':cp<cr>', {noremap = true})
+
+--------------------
+local fn = vim.fn
+local function add(value, str, sep)
+  sep = sep or ','
+  str = str or ''
+  value = type(value) == 'table' and table.concat(value, sep) or value
+  return str ~= '' and table.concat({ value, str }, sep) or value
+end
+local executable = function(e)
+  return fn.executable(e) > 0
+end
+if executable('rg') then
+  vim.g.ackprg =  'rg -S --no-heading --vimgrep'
+
+  vim.o.grepprg =
+      [[rg --hidden --no-heading --smart-case --vimgrep ]]
+  vim.o.grepformat = add('%f:%l:%c:%m', vim.o.grepformat)
+end
+--------------------
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
@@ -293,6 +378,8 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 vim.keymap.set('n', '<leader>wo', vim.cmd.only)
+vim.keymap.set('n', '<leader>nn', vim.cmd.NvimTreeToggle)
+vim.keymap.set('n', '<leader>nf', vim.cmd.NvimTreeFindFile)
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
