@@ -10,6 +10,7 @@ end
 require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
+  use { 'mhartington/formatter.nvim' }
 
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -85,6 +86,31 @@ require('packer').startup(function(use)
     -- will get overriden by `get_icons` option
     default = true;
   }
+  -- Utilities for creating configurations
+
+
+
+
+
+  require("formatter").setup({
+  filetype = {
+    python = {
+      require("formatter.filetypes.python").black,
+    },
+    html = {
+      require("formatter.filetypes.html").htmlbeautify,
+    },
+    javascript = {
+      require("formatter.filetypes.javascript").eslint_d,
+    },
+    json = {
+      require("formatter.filetypes.json").jq,
+    },
+    ["*"] = {
+      require("formatter.filetypes.any").remove_trailing_whitespace,
+    },
+  },
+})
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -128,7 +154,8 @@ vim.o.hlsearch = true
 vim.wo.number = true
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+-- vim.o.mouse = 'a'
+vim.o.mouse = ''
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -143,12 +170,17 @@ vim.o.smartcase = true
 -- Decrease update time
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
+vim.o.swapfile = false
+vim.o.cursorline = true
+vim.o.scrolloff = 4
 
 -- Set colorscheme
 -- vim.o.termguicolors = true
 -- vim.cmd [[colorscheme onedark]]
 vim.cmd [[colorscheme gruvbox]]
-vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey]]
+vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey
+  hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white
+]]
 local options = { noremap = true }
 
 vim.keymap.set('n', '<c-j>', "<c-w>j", options)
@@ -380,6 +412,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 vim.keymap.set('n', '<leader>wo', vim.cmd.only)
 vim.keymap.set('n', '<leader>nn', vim.cmd.NvimTreeToggle)
 vim.keymap.set('n', '<leader>nf', vim.cmd.NvimTreeFindFile)
+vim.keymap.set('n', '<leader>bl', "<c-^><cr>", options)
+
+
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
