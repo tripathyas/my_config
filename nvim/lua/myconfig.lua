@@ -91,7 +91,7 @@ end
 --------------------
 
 vim.o.termguicolors = false
--- vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[colorscheme gruvbox]]
 vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey
   hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white
 ]]
