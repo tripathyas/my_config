@@ -3,7 +3,7 @@ local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nv
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   is_bootstrap = true
-  vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+  vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
   vim.cmd [[packadd packer.nvim]]
 end
 
@@ -11,6 +11,23 @@ require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
   use { 'mhartington/formatter.nvim' }
+  use 'morhetz/gruvbox'
+  use 'mileszs/ack.vim'
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
+  }
+  use({
+    'rose-pine/neovim',
+    as = 'rose-pine',
+    config = function()
+        vim.cmd('colorscheme rose-pine')
+    end
+})
+
 
   use { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -21,6 +38,9 @@ require('packer').startup(function(use)
 
       -- Useful status updates for LSP
       'j-hui/fidget.nvim',
+
+      -- Additional lua configuration, makes nvim stuff amazing
+      'folke/neodev.nvim',
     },
   }
 
@@ -51,66 +71,12 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
-  use 'morhetz/gruvbox'
-  use 'mileszs/ack.vim'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-  use {
-    'nvim-tree/nvim-tree.lua',
-    requires = {
-      'nvim-tree/nvim-web-devicons', -- optional, for file icons
-    },
-    tag = 'nightly' -- optional, updated every week. (see issue #1193)
-  }
-
-  require 'nvim-web-devicons'.setup {
-    -- your personnal icons can go here (to override)
-    -- you can specify color or cterm_color instead of specifying both of them
-    -- DevIcon will be appended to `name`
-    override = {
-      zsh = {
-        icon = "",
-        color = "#428850",
-        cterm_color = "65",
-        name = "Zsh"
-      }
-    };
-    -- globally enable different highlight colors per icon (default to true)
-    -- if set to false all icons will have the default icon's color
-    color_icons = true;
-    -- globally enable default icons (default to false)
-    -- will get overriden by `get_icons` option
-    default = true;
-  }
-  -- Utilities for creating configurations
-
-
-
-
-
-  require("formatter").setup({
-  filetype = {
-    python = {
-      require("formatter.filetypes.python").black,
-    },
-    html = {
-      require("formatter.filetypes.html").htmlbeautify,
-    },
-    javascript = {
-      require("formatter.filetypes.javascript").eslint_d,
-    },
-    json = {
-      require("formatter.filetypes.json").jq,
-    },
-    ["*"] = {
-      require("formatter.filetypes.any").remove_trailing_whitespace,
-    },
-  },
-})
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -139,7 +105,7 @@ end
 -- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | PackerCompile',
+  command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
   group = packer_group,
   pattern = vim.fn.expand '$MYVIMRC',
 })
@@ -148,14 +114,13 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 -- See `:help vim.o`
 
 -- Set highlight on search
-vim.o.hlsearch = true
+vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
 
 -- Enable mouse mode
--- vim.o.mouse = 'a'
-vim.o.mouse = ''
+vim.o.mouse = 'a'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -170,23 +135,10 @@ vim.o.smartcase = true
 -- Decrease update time
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
-vim.o.swapfile = false
-vim.o.cursorline = true
-vim.o.scrolloff = 4
 
 -- Set colorscheme
 -- vim.o.termguicolors = true
 -- vim.cmd [[colorscheme onedark]]
-vim.cmd [[colorscheme gruvbox]]
-vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey
-  hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white
-]]
-local options = { noremap = true }
-
-vim.keymap.set('n', '<c-j>', "<c-w>j", options)
-vim.keymap.set('n', '<c-k>', "<c-w>k", options)
-vim.keymap.set('n', '<c-h>', "<c-w>h", options)
-vim.keymap.set('n', '<c-l>', "<c-w>l", options)
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -263,36 +215,6 @@ require('telescope').setup {
   },
 }
 
----------------- nvim-tree-------------------
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- set termguicolors to enable highlight groups
-
--- empty setup using defaults
--- require("nvim-tree").setup()
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 40,
-    adaptive_size = true,
-    mappings = {
-      list = {
-        { key = "u", action = "dir_up" },
-      },
-    },
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
-})
-
-
--------------------------------------------
-
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -312,43 +234,15 @@ vim.keymap.set('n', '<leader>fF', require('telescope.builtin').find_files, { des
 vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>fl', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>fg', function() return ":Ack " end, {expr = true, noremap = true})
-vim.keymap.set('v', '<leader>vy', '"+y', {noremap = true})
-vim.keymap.set('n', '<leader>vp', '"+p', {noremap = true})
 
-vim.keymap.set('n', '<leader>cc', ':botright cope<cr>', {noremap = true})
-vim.keymap.set('n', '<leader>cn', ':cn<cr>', {noremap = true})
-vim.keymap.set('n', '<leader>cp', ':cp<cr>', {noremap = true})
-
---------------------
-local fn = vim.fn
-local function add(value, str, sep)
-  sep = sep or ','
-  str = str or ''
-  value = type(value) == 'table' and table.concat(value, sep) or value
-  return str ~= '' and table.concat({ value, str }, sep) or value
-end
-local executable = function(e)
-  return fn.executable(e) > 0
-end
-if executable('rg') then
-  vim.g.ackprg =  'rg -S --no-heading --vimgrep'
-
-  vim.o.grepprg =
-      [[rg --hidden --no-heading --smart-case --vimgrep ]]
-  vim.o.grepformat = add('%f:%l:%c:%m', vim.o.grepformat)
-end
---------------------
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'javascript' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'javascript' },
 
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -409,12 +303,6 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-vim.keymap.set('n', '<leader>wo', vim.cmd.only)
-vim.keymap.set('n', '<leader>nn', vim.cmd.NvimTreeToggle)
-vim.keymap.set('n', '<leader>nf', vim.cmd.NvimTreeFindFile)
-vim.keymap.set('n', '<leader>bl', "<c-^><cr>", options)
-
-
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -457,70 +345,59 @@ local on_attach = function(_, bufnr)
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    if vim.lsp.buf.format then
-      vim.lsp.buf.format()
-    elseif vim.lsp.buf.formatting then
-      vim.lsp.buf.formatting()
-    end
+    vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- Setup mason so it can manage external tooling
-require('mason').setup()
-
 -- Enable the following language servers
--- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'gopls' }
-
--- Ensure the servers above are installed
-require('mason-lspconfig').setup {
-  ensure_installed = servers,
-}
-
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-for _, lsp in ipairs(servers) do
-  require('lspconfig')[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
-
--- Turn on lsp status information
-require('fidget').setup()
-
--- Example custom configuration for lua
+--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
--- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
+--  Add any additional override configuration in the following tables. They will be passed to
+--  the `settings` field of the server config. You must look up that documentation yourself.
+local servers = {
+  -- clangd = {},
+  -- gopls = {},
+  -- pyright = {},
+  -- rust_analyzer = {},
+  -- tsserver = {},
 
-require('lspconfig').sumneko_lua.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
+  sumneko_lua = {
     Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
-        checkThirdParty = false,
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
+      workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
 }
+
+-- Setup neovim lua configuration
+require('neodev').setup()
+--
+-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- Setup mason so it can manage external tooling
+require('mason').setup()
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require 'mason-lspconfig'
+
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(servers),
+}
+
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    require('lspconfig')[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+    }
+  end,
+}
+
+-- Turn on lsp status information
+require('fidget').setup()
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
@@ -567,3 +444,5 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+require("myconfig")
