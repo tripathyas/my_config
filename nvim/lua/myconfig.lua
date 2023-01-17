@@ -92,9 +92,10 @@ end
 
 vim.o.termguicolors = false
 vim.cmd [[colorscheme gruvbox]]
-vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey
-  hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white
-]]
+vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey ]]
+-- vim.cmd [[hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white ]]
+vim.cmd [[hi CursorLine   ctermbg=240 ]]
+  
 local options = { noremap = true }
 
 vim.keymap.set('n', '<c-j>', "<c-w>j", options)
