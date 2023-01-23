@@ -20,13 +20,13 @@ require('packer').startup(function(use)
     },
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
-  use({
-    'rose-pine/neovim',
-    as = 'rose-pine',
-    config = function()
-        vim.cmd('colorscheme rose-pine')
-    end
-})
+-- use({
+--     'rose-pine/neovim',
+--     as = 'rose-pine',
+--     config = function()
+--         vim.cmd('colorscheme rose-pine')
+--     end
+-- })
 
 
   use { -- LSP Configuration & Plugins
@@ -137,7 +137,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
--- vim.o.termguicolors = true
+-- vim.o.termguicolors = false
 -- vim.cmd [[colorscheme onedark]]
 
 -- Set completeopt to have a better completion experience

@@ -16,7 +16,7 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-[ -d ~/.config/my_config ] && PATH=$PATH:~/.config/my_config/scripts/
+[ -d ~/repo/private/my_config ] && PATH=$PATH:~/repo/private/my_config/scripts/
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 [[ -s /usr/share/autojump/autojump.sh ]] && . /usr/share/autojump/autojump.sh
 

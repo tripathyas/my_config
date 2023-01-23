@@ -90,7 +90,7 @@ if executable('rg') then
 end
 --------------------
 
-vim.o.termguicolors = false
+-- vim.o.termguicolors = false
 vim.cmd [[colorscheme gruvbox]]
 vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey ]]
 -- vim.cmd [[hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white ]]

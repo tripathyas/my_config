@@ -9,8 +9,9 @@ setopt    appendhistory     #Append history to the history file (no overwriting)
 setopt    sharehistory      #Share history across terminals
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -d ~/.config/my_config ] && PATH=$PATH:~/.config/my_config/scripts/
+[ -d ~/repo/private/my_config ] && PATH=$PATH:~/repo/private/my_config/scripts/
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 if [ -x "$(command -v nvim)" ]; then
     nvim='nvim'
