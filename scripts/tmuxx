@@ -7,15 +7,15 @@ create_session() {
       if ! tmux has-session -t 4; then
         tmux new -s 4 -d
 
-        tmux send-keys -t 4:0 "cd ~/Dropbox/vmware; nvim vmware.md" Enter
+        tmux send-keys -t 4:0 " nvim ~/pan.md" Enter
         tmux rename-window -t 4:0 vmware
 
         tmux new-window -t 4:1
-        tmux send-keys -t 4:1 "cd ~/repo/Git/help; nvimx" Enter
+        tmux send-keys -t 4:1 "cd ~/repo/private/Git/help; nvimx" Enter
         tmux rename-window -t 4:1 help
 
         tmux new-window -t 4:2
-        tmux send-keys -t 4:2 "cd ~/.config/my_config; nvimx" Enter
+        tmux send-keys -t 4:2 "cd ~/repo/private/my_config; nvimx" Enter
         tmux rename-window -t 4:2 config
 
         tmux select-window -t 4:0

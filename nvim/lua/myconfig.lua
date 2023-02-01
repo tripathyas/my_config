@@ -111,6 +111,7 @@ vim.o.cursorline = true
 vim.o.scrolloff = 4
 vim.o.hlsearch = true
 vim.o.mouse = ''
+vim.o.conceallevel = 3
 
 vim.keymap.set('n', '<leader>fl', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
