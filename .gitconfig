@@ -1,6 +1,6 @@
 [user]
-	name = ashutosh tripathy
-	email = tripathyas@vmware.com
+	name = Ashutosh Tripathy
+	email = ashutosh_tripathy@outlook.com
 [diff]
 	tool = nvim
 [difftool "nvim"]

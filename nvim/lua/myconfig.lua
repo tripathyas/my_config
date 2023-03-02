@@ -122,4 +122,5 @@ vim.keymap.set('n', '<leader>vp', '"+p', {noremap = true})
 vim.keymap.set('n', '<leader>cc', ':botright cope<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>cn', ':cn<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>cp', ':cp<cr>', {noremap = true})
+vim.keymap.set('n', '<leader>bo', ':execute "%bd|e#|bd#"<cr>', {noremap = true, silent=true})
 
