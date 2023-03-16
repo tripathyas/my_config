@@ -173,11 +173,15 @@ require('lazy').setup({
   },
   { 'mhartington/formatter.nvim' },
   {'mileszs/ack.vim' },
-  {	'nvim-tree/nvim-tree.lua',	
-    requires = {	
-      'nvim-tree/nvim-web-devicons', -- optional, for file icons	
-    },	
-    tag = 'nightly' -- optional, updated every week. (see issue #1193)	
+  -- {	'nvim-tree/nvim-tree.lua',	
+  --   requires = {	
+  --     'nvim-tree/nvim-web-devicons', -- optional, for file icons	
+  --   },	
+  --   tag = 'nightly' -- optional, updated every week. (see issue #1193)	
+  -- },
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   },
   { 'jose-elias-alvarez/null-ls.nvim', 	requires = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" } },
   
@@ -215,7 +219,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -505,33 +509,33 @@ cmp.setup {
       luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  },
+  -- mapping = cmp.mapping.preset.insert {
+  --   ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+  --   ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  --   ['<C-Space>'] = cmp.mapping.complete {},
+  --   ['<CR>'] = cmp.mapping.confirm {
+  --     behavior = cmp.ConfirmBehavior.Replace,
+  --     select = true,
+  --   },
+  --   ['<Tab>'] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_next_item()
+  --     elseif luasnip.expand_or_jumpable() then
+  --       luasnip.expand_or_jump()
+  --     else
+  --       fallback()
+  --     end
+  --   end, { 'i', 's' }),
+  --   ['<S-Tab>'] = cmp.mapping(function(fallback)
+  --     if cmp.visible() then
+  --       cmp.select_prev_item()
+  --     elseif luasnip.jumpable(-1) then
+  --       luasnip.jump(-1)
+  --     else
+  --       fallback()
+  --     end
+  --   end, { 'i', 's' }),
+  -- },
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
