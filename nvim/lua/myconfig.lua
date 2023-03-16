@@ -18,25 +18,25 @@ require("formatter").setup({
   },
 })
 
-require 'nvim-web-devicons'.setup {
-  -- your personnal icons can go here (to override)
-  -- you can specify color or cterm_color instead of specifying both of them
-  -- DevIcon will be appended to `name`
-  override = {
-    zsh = {
-      icon = "",
-      color = "#428850",
-      cterm_color = "65",
-      name = "Zsh"
-    }
-  };
-  -- globally enable different highlight colors per icon (default to true)
-  -- if set to false all icons will have the default icon's color
-  color_icons = true;
-  -- globally enable default icons (default to false)
-  -- will get overriden by `get_icons` option
-  default = true;
-}
+-- require 'nvim-web-devicons'.setup {
+--   -- your personnal icons can go here (to override)
+--   -- you can specify color or cterm_color instead of specifying both of them
+--   -- DevIcon will be appended to `name`
+--   override = {
+--     zsh = {
+--       icon = "",
+--       color = "#428850",
+--       cterm_color = "65",
+--       name = "Zsh"
+--     }
+--   };
+--   -- globally enable different highlight colors per icon (default to true)
+--   -- if set to false all icons will have the default icon's color
+--   color_icons = true;
+--   -- globally enable default icons (default to false)
+--   -- will get overriden by `get_icons` option
+--   default = true;
+-- }
 
 ---------------- nvim-tree-------------------
 vim.g.loaded_netrw = 1
@@ -91,7 +91,7 @@ end
 --------------------
 
 -- vim.o.termguicolors = false
-vim.cmd [[colorscheme gruvbox]]
+-- vim.cmd [[colorscheme gruvbox]]
 vim.cmd [[hi Search cterm=NONE ctermfg=black ctermbg=Grey ]]
 -- vim.cmd [[hi CursorLine   cterm=NONE ctermbg=240 ctermfg=white ]]
 vim.cmd [[hi CursorLine   ctermbg=240 ]]
@@ -124,3 +124,13 @@ vim.keymap.set('n', '<leader>cn', ':cn<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>cp', ':cp<cr>', {noremap = true})
 vim.keymap.set('n', '<leader>bo', ':execute "%bd|e#|bd#"<cr>', {noremap = true, silent=true})
 
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.completion.spell,
+        null_ls.builtins.diagnostics.pylint
+    },
+})
