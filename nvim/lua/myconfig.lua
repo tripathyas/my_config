@@ -7,10 +7,13 @@ require("formatter").setup({
       require("formatter.filetypes.html").htmlbeautify,
     },
     javascript = {
-      require("formatter.filetypes.javascript").eslint_d,
+      require("formatter.filetypes.javascript").prettier,
+    },
+    javascriptreact = {
+      require("formatter.filetypes.javascript").prettier,
     },
     json = {
-      require("formatter.filetypes.json").jq,
+      require("formatter.filetypes.json").prettier,
     },
     ["*"] = {
       require("formatter.filetypes.any").remove_trailing_whitespace,
@@ -104,8 +107,12 @@ vim.keymap.set('n', '<c-k>', "<c-w>k", options)
 vim.keymap.set('n', '<c-h>', "<c-w>h", options)
 vim.keymap.set('n', '<c-l>', "<c-w>l", options)
 vim.keymap.set('n', '<leader>wo', vim.cmd.only)
-vim.keymap.set('n', '<leader>nn', ":Telescope file_browser")
-vim.keymap.set('n', '<leader>nf', ":Telescope file_browser path=%:p:h select_buffer=true<cr>")
+-- vim.keymap.set('n', '<leader>nn', ":Telescope file_browser<cr>")
+-- vim.keymap.set('n', '<leader>nf', ":Telescope file_browser path=%:p:h select_buffer=true<cr>")
+vim.keymap.set('n', '<leader>nn', ":NERDTreeToggle<cr>")
+vim.keymap.set('n', '<leader>nf', ":NERDTreeFind<cr>")
+vim.g.NERDTreeWinSize = 50
+
 vim.keymap.set('n', '<leader>bl', "<c-^><cr>", options)
 vim.o.swapfile = false
 vim.o.cursorline = true
@@ -145,14 +152,21 @@ require("telescope").setup {
       mappings = {
         ["i"] = {
           -- your custom insert mode mappings
+          ["<C-o>"] = false,
         },
         ["n"] = {
           -- your custom normal mode mappings
+          o = false,
         },
       },
+      depth = 3,
+      grouped = true,
+      respect_gitignore = true,
     },
   },
 }
 -- To get telescope-file-browser loaded and working with telescope,
 -- you need to call load_extension, somewhere after setup function:
 require("telescope").load_extension "file_browser"
+vim.opt.foldlevel = 20
+vim.o.foldmethod = "syntax"
