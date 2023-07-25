@@ -168,5 +168,8 @@ require("telescope").setup {
 -- To get telescope-file-browser loaded and working with telescope,
 -- you need to call load_extension, somewhere after setup function:
 require("telescope").load_extension "file_browser"
-vim.opt.foldlevel = 20
+vim.opt.foldlevel = 10
 vim.o.foldmethod = "syntax"
+vim.o.foldenable = false
+vim.o.foldlevelstart = 1
+vim.o.foldnestmax = 10
