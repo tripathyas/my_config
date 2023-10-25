@@ -12,3 +12,5 @@
     b = branch
     l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
+[init]
+	defaultBranch = main

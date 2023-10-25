@@ -1,7 +1,7 @@
 -- local opt = vim.opt
 
 -- vim.opt_local.foldlevel = 20
-vim.opt_local.foldmethod = "indent"
+-- vim.opt_local.foldmethod = "indent"
 -- vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- vim.o.foldmethod = "indent"

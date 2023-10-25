@@ -1,7 +1,7 @@
 require("formatter").setup({
   filetype = {
     python = {
-      require("formatter.filetypes.python").black,
+      require("formatter.filetypes.python").ruff,
     },
     html = {
       require("formatter.filetypes.html").htmlbeautify,
@@ -139,7 +139,7 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.completion.spell,
-    null_ls.builtins.diagnostics.pylint
+    null_ls.builtins.diagnostics.ruff
   },
 })
 
@@ -173,3 +173,15 @@ vim.o.foldmethod = "syntax"
 vim.o.foldenable = false
 vim.o.foldlevelstart = 1
 vim.o.foldnestmax = 10
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'sh',
+  callback = function()
+    vim.lsp.start({
+      name = 'bash-language-server',
+      cmd = { 'bash-language-server', 'start' },
+    })
+  end,
+})
