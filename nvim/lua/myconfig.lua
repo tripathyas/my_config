@@ -15,6 +15,12 @@ require("formatter").setup({
     json = {
       require("formatter.filetypes.json").prettier,
     },
+    xml = {
+      require("formatter.filetypes.json").prettier,
+    },
+    vdx = {
+      require("formatter.filetypes.json").prettier,
+    },
     ["*"] = {
       require("formatter.filetypes.any").remove_trailing_whitespace,
     },
