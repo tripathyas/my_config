@@ -3,17 +3,17 @@
 mkdir -p ~/.config
 mkdir -p ~/.vim/after/ftplugin/
 
-ln -sf ~/repo/private/my_config/.ackrc ~/.ackrc
-ln -sf ~/repo/private/my_config/.bashrc ~/.bashrc
-ln -sf ~/repo/private/my_config/.gitconfig ~/.gitconfig
-ln -sf ~/repo/private/my_config/.gitignore ~/.gitignore
-ln -sf ~/repo/private/my_config/.ignore ~/.ignore
-ln -sf ~/repo/private/my_config/.zshrc ~/.zshrc
-ln -sf ~/repo/private/my_config/.tmux.conf ~/.tmux.conf
-ln -sf ~/repo/private/my_config/.fzf.bash ~/.fzf.bash
-ln -sf ~/repo/private/my_config/.fzf.zsh ~/.fzf.zsh
-ln -sf ~/repo/private/my_config/.rgignore ~/.rgignore
-ln -sf ~/repo/private/my_config/nvim ~/.config/nvim
+ln -sf ~/my_config/.ackrc ~/.ackrc
+ln -sf ~/my_config/.bashrc ~/.bashrc
+ln -sf ~/my_config/.gitconfig ~/.gitconfig
+ln -sf ~/my_config/.gitignore ~/.gitignore
+ln -sf ~/my_config/.ignore ~/.ignore
+ln -sf ~/my_config/.zshrc ~/.zshrc
+ln -sf ~/my_config/.tmux.conf ~/.tmux.conf
+ln -sf ~/my_config/.fzf.bash ~/.fzf.bash
+ln -sf ~/my_config/.fzf.zsh ~/.fzf.zsh
+ln -sf ~/my_config/.rgignore ~/.rgignore
+ln -sf ~/my_config/nvim ~/.config/nvim
 # ln -sf ~/.config/my_config/init.vim ~/.config/nvim/init.vim
 # ln -sf ~/repo/private/my_config/.vimrc ~/.vimrc
 
