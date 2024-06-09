@@ -19,12 +19,16 @@ vim.keymap.set('n', '<c-k>', "<c-w>k", options)
 vim.keymap.set('n', '<c-h>', "<c-w>h", options)
 vim.keymap.set('n', '<c-l>', "<c-w>l", options)
 vim.keymap.set('n', '<leader>wo', vim.cmd.only)
+vim.keymap.set('n', '<leader>wt', ":tab split<cr>")
 
 vim.keymap.set('n', '<leader>bl', "<c-^><cr>", options)
 vim.o.swapfile = false
 vim.o.cursorline = true
 vim.o.scrolloff = 4
 vim.o.hlsearch = true
+vim.o.syntax = on
+vim.o.ignorecase = true
+vim.o.smartcase = true
 vim.o.mouse = ''
 vim.o.conceallevel = 3
 
@@ -51,6 +55,16 @@ vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 
 
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.textwidth = 79
+vim.o.expandtab = true
+vim.o.autoindent = true
+vim.o.showmatch = true
+
+vim.keymap.set('n', '<F4>', ":w <bar> exec '!black -q '.shellescape('%')<CR>", {silent=true})
 
 -- augroup quickfix
 --     autocmd!
