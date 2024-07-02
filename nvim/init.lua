@@ -222,6 +222,7 @@ require('lazy').setup({
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   },
   {'preservim/nerdtree'},
+  {'mileszs/ack.vim'}
   { 'jose-elias-alvarez/null-ls.nvim', 	requires = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" } },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
