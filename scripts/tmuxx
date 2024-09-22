@@ -7,15 +7,15 @@ create_session() {
       if ! tmux has-session -t 4; then
         tmux new -s 4 -d
 
-        tmux send-keys -t 4:0 "cd ~; nvim pan.md vmware.md" Enter
+        tmux send-keys -t 4:0 "cd ~/help_files/; nvim pan.md vmware.md" Enter
         tmux rename-window -t 4:0 pan
 
         tmux new-window -t 4:1
-        tmux send-keys -t 4:1 "cd ~/repo/private/Git/help; nvimx" Enter
+        tmux send-keys -t 4:1 "cd ~/repo/private/Git/help; nvim" Enter
         tmux rename-window -t 4:1 help
 
         tmux new-window -t 4:2
-        tmux send-keys -t 4:2 "cd ~/repo/private/my_config; nvimx" Enter
+        tmux send-keys -t 4:2 "cd ~/repo/private/my_config; nvim" Enter
         tmux rename-window -t 4:2 config
 
         tmux select-window -t 4:0
@@ -28,14 +28,14 @@ create_session() {
         cd ~/repo/pan-code/nssauto;
 
         tmux new -s 2 -d
-        tmux send-keys -t 2:0 "nvimx" Enter
+        tmux send-keys -t 2:0 "nvim" Enter
         tmux rename-window -t 2:0 nss
 
         tmux new-window -t 2:1
         tmux send-keys -t 2:1
 
         # tmux new-window -t 2:2
-        # tmux send-keys -t 2:2 "cd /Users/tripathyas/repo/code/ccp/mantis-analytics-service; nvimx" Enter
+        # tmux send-keys -t 2:2 "cd /Users/tripathyas/repo/code/ccp/mantis-analytics-service; nvim" Enter
         # tmux rename-window -t 2:2 mantis-an
 
         tmux select-window -t 2:0
