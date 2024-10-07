@@ -114,9 +114,9 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.opt.clipboard = 'unnamedplus'
+-- end)
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -909,6 +909,7 @@ require('lazy').setup({
   },
   -- myconfig
   { 'tpope/vim-fugitive' },
+  { 'mileszs/ack.vim' },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -959,3 +960,13 @@ require('lazy').setup({
 
 -- require 'myconfig'
 vim.keymap.set('n', '<leader>wo', vim.cmd.only)
+vim.keymap.set('v', '<leader>vy', '"+y', { noremap = true })
+vim.keymap.set('n', '<leader>vp', '"+p', { noremap = true })
+vim.keymap.set('n', '<leader>fg', function()
+  return ':Ack '
+end, { expr = true, noremap = true })
+vim.o.grepprg = [[rg --hidden --no-heading --smart-case --vimgrep ]]
+vim.g.ackprg = 'rg -S --no-heading --vimgrep'
+vim.keymap.set('n', '<leader>cc', ':botright cope<cr>', { noremap = true })
+vim.keymap.set('n', '<leader>cn', ':cn<cr>', { noremap = true })
+vim.keymap.set('n', '<leader>cp', ':cp<cr>', { noremap = true })
