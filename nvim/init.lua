@@ -907,6 +907,7 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
+  -- myconfig
   { 'tpope/vim-fugitive' },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -931,7 +932,6 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
-  -- myconfig
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -958,3 +958,4 @@ require('lazy').setup({
 -- vim: ts=2 sts=2 sw=2 et
 
 -- require 'myconfig'
+vim.keymap.set('n', '<leader>wo', vim.cmd.only)
