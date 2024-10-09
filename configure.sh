@@ -43,3 +43,7 @@ done
 
 # create cron job to update repo after reboot
 # (crontab -l ; echo "@reboot sleep 10 && git -C ~/repo/private/my_config pull >/dev/null 2>&1") | sort - | uniq - | crontab -
+
+apt install unzip
+sudo apt install go
+go install -v golang.org/x/tools/gopls@latest
