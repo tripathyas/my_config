@@ -608,6 +608,8 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         pyright = {},
+        jsonls = {},
+        html = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -979,4 +981,4 @@ vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
-vim.keymap.set('n', '<leader>bl', "<c-^><cr>", options)
+vim.keymap.set('n', '<leader>bl', '<c-^><cr>', options)
