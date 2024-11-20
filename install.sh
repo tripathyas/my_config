@@ -30,5 +30,8 @@ cd ~/.config/my_config && sudo ./install.sh && ./configure.sh
 #   # Do something under GNU/Linux platform
 # fi
 
-sudo apt-get install -y git fzf ripgrep python3-pip pylint tmux autojump cscope tldr vim neovim exuberant-ctags curl
+#sudo apt-get install -y git fzf ripgrep python3-pip pylint tmux autojump cscope tldr vim neovim exuberant-ctags curl
+# sudo apt-get install -y git ripgrep pylint tmux autojump tldr neovim 
+brew install git ripgrep pylint tmux autojump tldr neovim lua luarocks wget rust nodejs npm ack
+cargo install stylua
 
