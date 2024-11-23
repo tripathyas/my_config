@@ -16,10 +16,25 @@
 # ln -sf ~/my_config/nvim ~/.config/nvim
 # ln -sf ~/.config/my_config/init.vim ~/.config/nvim/init.vim
 # ln -sf ~/repo/private/my_config/.vimrc ~/.vimrc
-ln -sf ~/repo/personal/my_config/nvim/init.lua ~/.config/nvim/init.lua
+mkdir -p ~/repo/personal/
+cd ~/repo/personal && git clone --depth=1 --no-single-branch https://github.com/tripathyas/my_config.git && cd ~/repo/personal/my_config && git checkout v2
+mkdir -p ~/.config/
 ln -sf ~/repo/personal/my_config/nvim ~/.config/
+ln -sf ~/repo/personal/my_config/.tmux.conf ~/.tmux.conf
 
-# [ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)
+mkdir ~/packages && cd ~/packages
+wget  https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz && tar xzvf nvim-linux64.tar.gz && ./nvim-linux64/bin/nvim
+
+sudo ln -sf ~/packages/nvim-linux64/bin/nvim /usr/bin/nvim
+
+
+mkdir -p ~/repo/public/
+cd ~/repo/public/ && git clone --depth=1 https://github.com/wting/autojump.git && cd autojump && ./install.py
+
+mkdir -p ~/packages/ack && cd ~/packages/ack
+curl https://beyondgrep.com/ack-v3.7.0 > ack && chmod 0755 ack
+sudo ln -sf ~/packages/ack/ack /usr/bin/ack
+# [ -f ~/.vim/autoload/plug.vim ] || echo "Install plug" $(curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim) 
 # vim -c 'PlugInstall' -c 'qa'
 # nvim -c 'PlugInstall' -c 'qa'
 
