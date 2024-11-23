@@ -35,3 +35,8 @@ cd ~/.config/my_config && sudo ./install.sh && ./configure.sh
 brew install git ripgrep pylint tmux autojump tldr neovim lua luarocks wget rust nodejs npm ack
 cargo install stylua
 
+
+sudo tdnf update
+sudo tdnf install git ripgrep pylint tmux  lua  wget rust nodejs npm 
+sudo tdnf install autojump tldr luarocks ack neovim
+
