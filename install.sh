@@ -32,11 +32,11 @@ cd ~/.config/my_config && sudo ./install.sh && ./configure.sh
 
 #sudo apt-get install -y git fzf ripgrep python3-pip pylint tmux autojump cscope tldr vim neovim exuberant-ctags curl
 # sudo apt-get install -y git ripgrep pylint tmux autojump tldr neovim 
-brew install git ripgrep pylint tmux autojump tldr neovim lua luarocks wget rust nodejs npm ack
+brew install git ripgrep pylint tmux tealdeer neovim lua luarocks wget rust nodejs npm ack
 cargo install stylua
 
 
 sudo tdnf update
 sudo tdnf install git ripgrep pylint tmux  lua  wget rust nodejs npm zoxide
-sudo tdnf install autojump tldr luarocks ack neovim
+sudo tdnf install tealdeer luarocks ack neovim
 
