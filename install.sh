@@ -40,3 +40,11 @@ sudo tdnf update
 sudo tdnf install git ripgrep pylint tmux  lua  wget rust nodejs npm 
 sudo tdnf install autojump tldr luarocks ack neovim
 
+# install uv, uvx
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Install Ruff globally.
+uv tool install ruff@latest
+
+curl https://sh.rustup.rs -sSf | sh
+cargo install fd-find
+curl https://install.duckdb.org | sh
