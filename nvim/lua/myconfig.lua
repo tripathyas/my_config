@@ -137,8 +137,8 @@ vim.keymap.set('n', '<leader>wo', vim.cmd.only)
 -- vim.keymap.set('n', '<leader>fl', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 -- vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 -- vim.keymap.set('n', '<leader>fg', function() return ":Ack " end, { expr = true, noremap = true })
--- vim.keymap.set('v', '<leader>vy', '"+y', { noremap = true })
--- vim.keymap.set('n', '<leader>vp', '"+p', { noremap = true })
+vim.keymap.set('v', '<leader>vy', '"+y', { noremap = true })
+vim.keymap.set('n', '<leader>vp', '"+p', { noremap = true })
 --
 -- vim.keymap.set('n', '<leader>cc', ':botright cope<cr>', { noremap = true })
 -- vim.keymap.set('n', '<leader>cn', ':cn<cr>', { noremap = true })
@@ -198,7 +198,7 @@ vim.keymap.set('n', '<leader>wo', vim.cmd.only)
 --     })
 --   end,
 -- })
-if vim.fn.executable("rg") == 1 then
-  vim.o.grepprg = "rg --vimgrep --smart-case --hidden"
-  vim.o.grepformat = "%f:%l:%c:%m"
+if vim.fn.executable 'rg' == 1 then
+  vim.o.grepprg = 'rg --vimgrep --smart-case --hidden'
+  vim.o.grepformat = '%f:%l:%c:%m'
 end
